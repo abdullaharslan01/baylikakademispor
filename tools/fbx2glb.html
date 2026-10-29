@@ -23,8 +23,13 @@ import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
 
 const log = (...a) => { document.getElementById('log').textContent += a.join(' ') + '\n'; };
-const KARAKTER = '../assets/mixamo/bryce_idle.fbx';
-const KLIPLER = { idle: null, dive: 'dive.fbx', swim: 'swimming.fbx', kick: 'roundhouse_kick.fbx', fight: 'fight_idle.fbx', bag: 'punching_bag.fbx' };
+// ?k=james (havuz: durma + yüzme) ya da ?k=bryce (dojo/ring: tekme, duruş, kum torbası)
+const AYAR = {
+  james: { karakter: 'james_idle.fbx', cikti: 'yuzucu.glb', klipler: { idle: null, swim: 'james_swimming.fbx' } },
+  bryce: { karakter: 'bryce_idle.fbx', cikti: 'dovuscu.glb', klipler: { kick: 'roundhouse_kick.fbx', fight: 'fight_idle.fbx', bag: 'punching_bag.fbx' } },
+}[new URLSearchParams(location.search).get('k') || 'james'];
+const KARAKTER = '../assets/mixamo/' + AYAR.karakter;
+const KLIPLER = AYAR.klipler;
 const MAKS_DOKU = 1024;
 
 const yukle = url => new Promise((ok, hata) => new FBXLoader().load(url, ok, undefined, hata));
@@ -45,8 +50,7 @@ async function donustur() {
   log('Karakter yükleniyor…');
   const model = await yukle(KARAKTER);
   const klipler = [];
-  model.animations[0].name = 'idle';
-  klipler.push(model.animations[0]);
+  if ('idle' in KLIPLER) { model.animations[0].name = 'idle'; klipler.push(model.animations[0]); }
   for (const [ad, dosya] of Object.entries(KLIPLER)) {
     if (!dosya) continue;
     const f = await yukle('../assets/mixamo/' + dosya);
@@ -94,8 +98,8 @@ async function donustur() {
   log('GLB üretiliyor…');
   const glb = await new GLTFExporter().parseAsync(model, { binary: true, animations: klipler, onlyVisible: false });
   log(`GLB boyutu: ${(glb.byteLength / 1048576).toFixed(2)} MB`);
-  const r = await fetch('/kaydet?ad=sporcu.glb', { method: 'POST', body: glb });
-  log(r.ok ? '✓ public/models/sporcu.glb kaydedildi' : 'Kaydedilemedi: ' + r.status);
+  const r = await fetch('/kaydet?ad=' + AYAR.cikti, { method: 'POST', body: glb });
+  log(r.ok ? '✓ public/models/' + AYAR.cikti + ' kaydedildi' : 'Kaydedilemedi: ' + r.status);
   window.__bitti = true;
 }
 document.getElementById('donustur').onclick = () => donustur().catch(e => { log('HATA: ' + e.message); console.error(e); });

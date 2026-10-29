@@ -9,9 +9,9 @@
   --muted: #5b6068;
   --line: #e6e8eb;
   --bg-soft: #F5F8FA;
-  --ui: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --baslik: "Manrope", system-ui, sans-serif;
-  --metin: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ui: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --baslik: "Plus Jakarta Sans", system-ui, sans-serif;
+  --metin: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; font-family: var(--ui); color: var(--ink-2); background: #fff; -webkit-font-smoothing: antialiased; }
@@ -211,5 +211,5 @@ html { overflow-x: clip; }
 .insta-kart small { display: block; margin-top: 2px; font-size: 14px; color: var(--muted); }
 
 /* Baylık: büyük başlıklar kulübün sportif yazı tipiyle */
-.bl__head h1, .art__head h1, .nf h1 { font-family: "Anton", Impact, sans-serif; font-weight: 400; text-transform: uppercase; letter-spacing: .005em; line-height: 1.08; }
+.bl__head h1, .art__head h1, .nf h1 { font-family: "Big Shoulders Display", Impact, sans-serif; font-weight: 900; text-transform: uppercase; letter-spacing: .005em; line-height: 1.08; }
 .about-author > svg, .byline > svg { flex: none; }

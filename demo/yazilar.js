@@ -1,7 +1,10 @@
 // DEMO blog yazıları. TODO (panel): yayında /api/blog.php'den gelir; her yazı /blog/slug adresinde sunucuda üretilir.
 // Alanlar panelin yazı yapısıyla aynı: slug, baslik, ozet, kategori, tarih, dakika, govde (HTML).
+// Kapak fotoğrafları Unsplash'tan (Unsplash Lisansı: ücretsiz, ticari kullanım serbest): public/img/blog/<slug>.jpg
 
 export const KATEGORILER = ['Yüzme', 'Taekwondo', 'Kickboks', 'Sağlık'];
+
+export const kapakUrl = y => `/img/blog/${y.slug}.jpg`;
 
 export const YAZILAR = [
   {

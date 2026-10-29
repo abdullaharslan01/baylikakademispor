@@ -6,4 +6,5 @@ node_modules/
 dist/
 data/
 .env
-public/models/sporcu.glb
+assets/models/
+assets/*.glb

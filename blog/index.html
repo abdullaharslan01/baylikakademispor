@@ -8,12 +8,10 @@
 <meta name="theme-color" content="#0a2233">
 <!-- DEMO blog sayfası (statik). Yayında bu adres sunucu tarafında public/blog/index.php ve yazi.php ile üretilir. -->
 <link rel="icon" href="/img/logo.svg" type="image/svg+xml">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts/fonts.css">
 <style>
 :root{--red:#d71920;--ink:#0d0f13;--ink2:#2a2e35;--muted:#5d626a;--paper:#f6f4f0;--line:#e6e2db;--sea:#0b7489;--sea-hi:#7ce6f1;--night:#0a2233;--wa:#25d366;--wa-ink:#04240f;
-  --display:'Anton',Impact,sans-serif;--body:'Manrope',system-ui,-apple-system,'Segoe UI',sans-serif;--pad:clamp(16px,4vw,48px)}
+  --display:'Big Shoulders Display','Arial Narrow',Impact,sans-serif;--body:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--pad:clamp(16px,4vw,48px)}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
 body{font-family:var(--body);background:var(--paper);color:var(--ink2);line-height:1.6;-webkit-font-smoothing:antialiased}
@@ -25,7 +23,7 @@ img,svg{display:block}
 .top{position:sticky;top:0;z-index:20;background:rgba(10,20,30,.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:#fff}
 .top .wrap{display:flex;align-items:center;gap:14px;height:68px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
-.brand b{font-family:var(--display);font-weight:400;font-size:21px;letter-spacing:.02em;text-transform:uppercase}
+.brand b{font-family:var(--display);font-weight:900;font-size:21px;letter-spacing:.02em;text-transform:uppercase}
 .brand small{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#ff6a70;margin-top:-2px}
 .top nav{margin-left:auto;display:flex;gap:6px;align-items:center}
 .top nav a{font-weight:700;font-size:14px;text-decoration:none;padding:8px 12px;border-radius:999px}
@@ -40,7 +38,7 @@ img,svg{display:block}
 .hero{background:radial-gradient(90% 120% at 85% -10%,#14a7bd 0%,#0b5d75 35%,var(--night) 75%);color:#fff;padding:56px 0 64px;position:relative;overflow:hidden}
 .hero::after{content:"";position:absolute;left:-5%;right:-5%;bottom:-2px;height:40px;background:var(--paper);clip-path:polygon(0 60%,10% 40%,20% 55%,30% 35%,40% 50%,50% 30%,60% 50%,70% 35%,80% 55%,90% 40%,100% 60%,100% 100%,0 100%)}
 .kicker{font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--sea-hi)}
-.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(48px,10vw,120px);line-height:1.02;margin:10px 0 14px}
+.hero h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(48px,10vw,120px);line-height:1.02;margin:10px 0 14px}
 .hero p{max-width:640px;font-size:clamp(17px,2.2vw,20px);opacity:.92}
 /* Kategoriler */
 .cats{display:flex;gap:8px;flex-wrap:wrap;margin:-6px 0 30px}
@@ -50,9 +48,10 @@ img,svg{display:block}
 .cat.on small{color:rgba(255,255,255,.7)}
 /* Kapak görselleri (demo: fotoğraf yerine tasarım) */
 .cover{position:relative;overflow:hidden;display:grid;place-items:center;aspect-ratio:16/10}
-.cover svg{width:22%;height:auto;color:rgba(255,255,255,.95);position:relative;z-index:1;filter:drop-shadow(0 6px 18px rgba(0,0,0,.25))}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.feat:hover .cover img,.card:hover .cover img{transform:scale(1.05)}
 .cover::before{content:"";position:absolute;inset:0;background:inherit;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
-.cover::after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(115deg,rgba(255,255,255,.07) 0 14px,transparent 14px 34px)}
+
 .c-yuzme{background:radial-gradient(120% 90% at 20% 0%,#7ce6f1,#0e8ea6 45%,#0a3d55)}
 .c-taekwondo{background:radial-gradient(120% 90% at 80% 0%,#fff,#efe7df 45%,#e3b3b3 120%)}
 .c-taekwondo svg{color:var(--red)}
@@ -80,7 +79,7 @@ img,svg{display:block}
 /* Yazı */
 .art{max-width:780px;margin:0 auto;padding:40px var(--pad) 40px}
 .back{display:inline-flex;font-weight:800;font-size:14px;text-decoration:none;color:var(--sea)}
-.art h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(36px,6vw,64px);line-height:1.08;color:var(--ink);margin:14px 0 14px}
+.art h1{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(36px,6vw,64px);line-height:1.08;color:var(--ink);margin:14px 0 14px}
 .lead{font-size:20px;color:var(--muted);line-height:1.55}
 .byline{display:flex;align-items:center;gap:12px;margin:22px 0 26px;padding:14px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .byline b{display:block;color:var(--ink)}
@@ -94,11 +93,11 @@ img,svg{display:block}
 .prose blockquote{margin:26px 0;padding:18px 22px;border-left:5px solid var(--red);background:#fff;border-radius:0 16px 16px 0;font-weight:700;font-size:20px;color:var(--ink)}
 .cta{max-width:780px;margin:10px auto 50px;padding:0 var(--pad)}
 .cta>div{background:linear-gradient(135deg,var(--night),#0b5d75);color:#fff;border-radius:26px;padding:28px}
-.cta h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(28px,4vw,40px);line-height:1.1}
+.cta h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,4vw,40px);line-height:1.1}
 .cta p{opacity:.9;margin:8px 0 18px}
 .cta .row{display:flex;gap:10px;flex-wrap:wrap}
 .related{max-width:1360px;margin:0 auto;padding:0 var(--pad)}
-.related h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:32px;color:var(--ink);margin-bottom:18px}
+.related h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:32px;color:var(--ink);margin-bottom:18px}
 .share{display:flex;gap:8px;margin:30px 0 0;flex-wrap:wrap}
 footer{background:#0a0a0c;color:rgba(255,255,255,.75);padding:30px 0 calc(30px + env(safe-area-inset-bottom));font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
@@ -133,17 +132,17 @@ footer a{color:#fff}
   <div class="wrap">
     <span>© 2026 <a href="../">Baylık Akademi Spor Kulübü</a> · Sincan &amp; Eryaman, Ankara</span>
     <span><a href="tel:+905428980601">0542 898 06 01</a> · <a href="https://www.instagram.com/baylikakademisporkulubu/" target="_blank" rel="noopener">Instagram</a></span>
-    <span class="note">Demo sürüm · Yazılar örnek olarak hazırlanmıştır.</span>
+    <span class="note">Demo sürüm · Yazılar örnek olarak hazırlanmıştır · Fotoğraflar: Unsplash</span>
   </div>
 </footer>
 
 <script type="module">
-import { YAZILAR, KATEGORILER } from '../demo/yazilar.js';
+import { YAZILAR, KATEGORILER, kapakUrl } from '../demo/yazilar.js';
 
 const app = document.getElementById('app');
 const esc = t => String(t).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const katKod = k => k.toLowerCase().replace('ü', 'u').replace('ğ', 'g').replace('ı', 'i').replace('ş', 's');
-const kapak = y => `<span class="cover c-${katKod(y.kategori)}"><svg aria-hidden="true"><use href="#c-${katKod(y.kategori)}"/></svg></span>`;
+const kapak = (y, buyuk) => `<span class="cover c-${katKod(y.kategori)}"><img src="${kapakUrl(y)}" alt="" loading="${buyuk ? 'eager' : 'lazy'}" onerror="this.remove()"></span>`;
 const meta = y => `${esc(y.tarih)} · ${y.dakika} dk okuma`;
 const link = y => `?yazi=${encodeURIComponent(y.slug)}`;
 const WA = 'https://wa.me/905428980601?text=';
@@ -163,7 +162,7 @@ function liste(kategori) {
         <button class="cat${!kategori ? ' on' : ''}" data-k="">Tümü <small>${YAZILAR.length}</small></button>
         ${KATEGORILER.map(k => `<button class="cat${k === kategori ? ' on' : ''}" data-k="${esc(k)}">${esc(k)} <small>${YAZILAR.filter(y => y.kategori === k).length}</small></button>`).join('')}
       </nav>
-      ${one ? `<a class="feat" href="${link(one)}">${kapak(one)}<div><span class="tag new">En yeni yazı · ${esc(one.kategori)}</span><h2>${esc(one.baslik)}</h2><p>${esc(one.ozet)}</p><span class="meta">${meta(one)}</span></div></a>` : ''}
+      ${one ? `<a class="feat" href="${link(one)}">${kapak(one, true)}<div><span class="tag new">En yeni yazı · ${esc(one.kategori)}</span><h2>${esc(one.baslik)}</h2><p>${esc(one.ozet)}</p><span class="meta">${meta(one)}</span></div></a>` : ''}
       ${diger.length ? `<div class="grid">${diger.map(y => `<a class="card" href="${link(y)}">${kapak(y)}<span class="b"><span class="tag">${esc(y.kategori)}</span><h3>${esc(y.baslik)}</h3><p>${esc(y.ozet)}</p><span class="meta">${meta(y)}</span></span></a>`).join('')}</div>` : '<p class="empty">Bu kategoride henüz yazı yok.</p>'}
     </div>`;
   app.querySelectorAll('.cat').forEach(b => b.onclick = () => git(b.dataset.k ? `?kategori=${encodeURIComponent(b.dataset.k)}` : './'));
@@ -181,7 +180,7 @@ function yazi(slug) {
       <h1>${esc(y.baslik)}</h1>
       <p class="lead">${esc(y.ozet)}</p>
       <div class="byline"><svg width="44" height="44" aria-hidden="true"><use href="#i-logo"/></svg><div><b>Baylık Akademi</b><span>${esc(y.kategori)} · ${meta(y)}</span></div></div>
-      ${kapak(y)}
+      ${kapak(y, true)}
       <div class="prose">${y.govde}</div>
       <div class="share">
         <a class="btn btn-ghost" href="${WA}${encodeURIComponent(y.baslik + ' ' + location.href)}" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp'ta paylaş</a>

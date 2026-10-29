@@ -356,10 +356,10 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .posts{display:grid;grid-template-columns:1fr;gap:16px;padding:26px clamp(22px,5vw,44px) 6px}
 .post{display:flex;flex-direction:column;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:22px;overflow:hidden;color:#fff;text-decoration:none;transition:transform .25s,border-color .25s}
 .post:hover{transform:translateY(-4px);border-color:rgba(124,230,241,.45)}
-.post:hover .cover::after{transform:scale(1.06)}
 .cover{aspect-ratio:16/9;position:relative;overflow:hidden;display:grid;place-items:center}
 .cover::after{content:"";position:absolute;inset:0;background:inherit;transition:transform .6s}
-.cover svg{position:relative;z-index:1;width:64px;height:64px;color:rgba(255,255,255,.92)}
+.cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;transition:transform .6s}
+.post:hover .cover img{transform:scale(1.05)}
 .cover.c-yuzme{background:radial-gradient(120% 90% at 20% 0%,#7ce6f1,#0e8ea6 45%,#0a3d55)}
 .cover.c-taekwondo{background:radial-gradient(120% 90% at 80% 0%,#fff,#f0e9e2 40%,#d71920 140%)}
 .cover.c-taekwondo svg{color:#d71920}
@@ -902,6 +902,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
       <p>© 2026 Baylık Akademi Spor Kulübü · Sincan &amp; Eryaman, Ankara</p>
       <p>Görünüm: <a href="?3d">3D</a> · <a href="?lite">Sade</a></p>
       <p>Demo sürüm · Bazı bilgiler örnek olarak yazılmıştır.</p>
+      <p class="credit">3D yüzücü: <a href="https://sketchfab.com/3d-models/james-realistic-male-character-3d-model-394c101990a54fa0adfc71d3d967fa2e" target="_blank" rel="noopener">“James realistic male character”</a> · StormierTunic16 · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> · Animasyonlar: Mixamo · Fotoğraflar: Unsplash</p>
     </footer>
   </section>
 </main>
@@ -1072,13 +1073,12 @@ const DEMO_REVIEWS = [
 })(DEMO_REVIEWS);
 
 // Blog: ÖRNEK yazılar demo/yazilar.js'den (blog sayfasıyla ortak). TODO (panel): yayında sunucu son yazıları HTML'e basar.
-import('./demo/yazilar.js').then(({ YAZILAR }) => {
+import('./demo/yazilar.js').then(({ YAZILAR, kapakUrl }) => {
   const wrap = document.getElementById('posts');
   if (!wrap || wrap.children.length) return;
   const kod = k => k.toLowerCase().replace('ü', 'u').replace('ğ', 'g').replace('ı', 'i').replace('ş', 's');
-  const ikon = { yuzme: 'i-swim', taekwondo: 'i-kick', kickboks: 'i-glove', saglik: 'i-swim' };
   wrap.innerHTML = YAZILAR.slice(0, 5).map((p, i) => `<a class="post${i === 0 ? ' post--big' : ''}" href="blog/?yazi=${encodeURIComponent(p.slug)}">
-      <span class="cover c-${kod(p.kategori)}"><svg aria-hidden="true"><use href="#${ikon[kod(p.kategori)]}"/></svg></span>
+      <span class="cover c-${kod(p.kategori)}"><img src="${kapakUrl(p)}" alt="" loading="lazy" onerror="this.remove()"></span>
       <span class="pb"><span class="meta">${esc(p.kategori)} · ${p.dakika} dk okuma</span><h3>${esc(p.baslik)}</h3><p>${esc(p.ozet)}</p><span class="more">Devamını oku →</span></span>
     </a>`).join('');
 }).catch(() => { const b = document.getElementById('blog'); if (b) b.hidden = true; });
@@ -1830,139 +1830,133 @@ function start(THREE) {
   }
 
   // ------------------------------------------------------------
-  // GERÇEKÇİ SPORCU (Mixamo modeli, public/models/sporcu.glb)
-  // Yüklenene kadar ve yüklenemezse yukarıdaki çizilmiş figür görünür.
+  // GERÇEKÇİ SPORCULAR (Mixamo iskeleti):
+  //   yuzucu.glb  → havuz (James, CC-BY: StormierTunic16 / Sketchfab)
+  //   dovuscu.glb → taekwondo ve kickboks (Bryce, Mixamo)
+  // Yüklenene kadar ve yüklenemezse çizilmiş figür görünür.
   // ------------------------------------------------------------
+  const modeller = {};
   let athlete = null;
-  // TODO: Fab'dan alınacak gerçekçi yüzücü modeli gelince açılacak (Mixamo karakteri yamalı göründüğü için kapalı)
-  const GERCEKCI_MODEL = /[?&]model\b/.test(location.search);
-  if (GERCEKCI_MODEL && (tier === 0 || forced)) {
+  if (tier === 0 || forced) {
     import('three/addons/loaders/GLTFLoader.js').then(({ GLTFLoader }) => {
       const loader = new GLTFLoader();
-      const dene = (yollar) => loader.load(yollar[0], kur, undefined, () => yollar.length > 1 ? dene(yollar.slice(1)) : console.warn('Sporcu modeli yüklenemedi'));
-      dene(['/models/sporcu.glb']);
+      let kalan = 2;
+      const bitti = () => { if (--kalan === 0 && modeller.yuzucu && modeller.dovuscu) athleteKur(); };
+      loader.load('/models/yuzucu.glb', g => { modeller.yuzucu = g; bitti(); }, undefined, () => console.warn('Yüzücü modeli yüklenemedi'));
+      loader.load('/models/dovuscu.glb', g => { modeller.dovuscu = g; bitti(); }, undefined, () => console.warn('Dövüşçü modeli yüklenemedi'));
     }).catch(e => console.warn(e));
   }
-  function kur(gltf) {
+
+  /** Mixamo modelini sporcu pivotuna (kalça) oturtur; kemik yardımcıları ve karıştırıcı döndürür */
+  function hazirla(gltf) {
+    // (boy ölçümü bağlanma pozunda yapılır)
     const root = gltf.scene;
     const kemik = ad => root.getObjectByName(ad) || root.getObjectByName(ad.replace(':', ''));
-    const parca = ad => { let m = null; root.traverse(o => { if (o.isMesh && o.name.includes(ad)) m = o; }); return m; };
-    const shirt = parca('Shirt'), shorts = parca('Shorts'), shoes = parca('Sneakers'), hairM = parca('Hair'), body = parca('Body');
-    root.traverse(o => { if (o.isMesh) { o.frustumCulled = false; o.castShadow = false; } });
-    // Tişört ve şortun rengi branşa göre değişir: dokuyu kaldır, kumaş kıvrımları (normal map) kalsın
-    const kumas = m => { const k = m.material.clone(); k.map = null; k.roughness = 0.8; m.material = k; return k; };
-    const shirtMat = shirt && kumas(shirt), shortsMat = shorts && kumas(shorts);
-    if (body) { body.material = body.material.clone(); }
-
-    // Kalça kemiği sporcu grubunun pivotuna otursun
+    root.traverse(o => { if (o.isMesh) o.frustumCulled = false; });
+    // Boy 1,78 m olsun (Mixamo bazı modelleri santimetre/metre karışık dışa aktarıyor)
+    root.updateMatrixWorld(true);
+    const kutu = new THREE.Box3().setFromObject(root), boy = kutu.max.y - kutu.min.y;
+    if (boy > 0) root.scale.multiplyScalar(1.78 / boy);
     root.updateMatrixWorld(true);
     const hipsB = kemik('mixamorig:Hips');
     const hp = new THREE.Vector3(); hipsB.getWorldPosition(hp);
     const holder = new THREE.Group(); holder.add(root); root.position.y = -hp.y;
+    holder.visible = false;
     hips.add(holder);
-    hips.children.forEach(c => { if (c !== holder) c.visible = false; });
-
-    // Kemiklere takılan aksesuarlar (kemik ölçeği 0.01: boyutlar metreye çevrilir)
     const takili = (kemikAdi, obj, x, y, z) => {
       const b = kemik(kemikAdi); if (!b) return obj;
       const ws = new THREE.Vector3(); b.getWorldScale(ws);
       const g = new THREE.Group(); g.scale.setScalar(1 / ws.x); g.add(obj); obj.position.set(x, y, z); b.add(g); return obj;
     };
-    // Bone: başa oturan kırmızı kabuk + iki yanda logo; gözlük yalnız camlar ve ince lastik
-    const bone = new THREE.Group();
-    const kabuk = new THREE.Mesh(new THREE.SphereGeometry(0.108, 28, 16, 0, TAU, 0, Math.PI * 0.6), redMat);
-    kabuk.scale.set(0.9, 1.0, 1.06); kabuk.rotation.x = -0.18; bone.add(kabuk);
-    [-1, 1].forEach(s => { const l = new THREE.Mesh(new THREE.CircleGeometry(0.036, 24), logoMat); l.position.set(0.098 * s, 0.03, -0.012); l.rotation.set(0, s * Math.PI / 2, 0); bone.add(l); });
-    const gozluk = new THREE.Group();
-    const lastik = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.0035, 6, 40, Math.PI * 1.2).rotateX(Math.PI / 2).rotateY(-Math.PI * 0.1 - Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#f1f1f1', roughness: 0.5 }));
-    gozluk.add(lastik);
-    [-1, 1].forEach(s => { const g = new THREE.Mesh(new THREE.SphereGeometry(0.02, 16, 10), darkMat); g.position.set(0.031 * s, 0, 0.09); g.scale.set(1.3, 0.85, 0.55); gozluk.add(g); });
-    takili('mixamorig:Head', bone, 0, 0.1, -0.012);
-    takili('mixamorig:Head', gozluk, 0, 0.082, -0.004);
-    const kusak = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.022, 8, 32).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#141414', roughness: 0.7 }));
-    kusak.scale.set(1.05, 1, 0.82);
-    takili('mixamorig:Hips', kusak, 0, 0.06, 0.005);
-    const eldivenler = ['mixamorig:LeftHand', 'mixamorig:RightHand'].map(b => {
-      const e = new THREE.Mesh(new THREE.SphereGeometry(0.068, 20, 14), redMat); e.scale.set(0.95, 1.15, 1.05);
-      return takili(b, e, 0, 0.07, 0.01);
-    });
-    // Ayakkabı yerine çıplak ayak: ayak kemiğinden parmak kemiğine uzanan ayak + topuk
-    if (shoes) shoes.visible = false;
-    const ayakMat = new THREE.MeshStandardMaterial({ color: '#b07656', roughness: 0.55 });
-    const ayakUclari = [];
-    ['Left', 'Right'].forEach(t => {
-      const ayak = kemik(`mixamorig:${t}Foot`), parmak = kemik(`mixamorig:${t}ToeBase`);
-      if (!ayak || !parmak) return;
-      const ws = new THREE.Vector3(); ayak.getWorldScale(ws);
-      const yon = parmak.position.clone().multiplyScalar(ws.x);       // ayak → parmak (metre)
-      const boy = yon.length();
-      const g = new THREE.Group();
-      const taban = new THREE.Mesh(new THREE.CapsuleGeometry(0.04, boy * 1.15, 6, 14), ayakMat);
-      taban.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), yon.clone().normalize());
-      taban.position.copy(yon).multiplyScalar(0.62); taban.scale.set(1.1, 1, 0.72);
-      const topuk = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 10), ayakMat);
-      g.add(taban, topuk);
-      takili(`mixamorig:${t}Foot`, g, 0, 0, 0);
-      ayakUclari.push(ayak, parmak);
-    });
-
-    // Animasyonlar: hepsi aynı anda çalışır, ağırlıkları sahneye göre değişir
     const mixer = new THREE.AnimationMixer(root);
     const act = {};
-    for (const clip of gltf.animations) {
-      const a = mixer.clipAction(clip); a.play(); a.setEffectiveWeight(0); act[clip.name] = a;
-    }
-    // Balıklama: takla animasyonu yerine yüzme animasyonunun "kollar ileride, gövde düz" anı kullanılır.
-    // O an, elin kalçadan en ileride olduğu kare olarak otomatik bulunur.
+    for (const clip of gltf.animations) { const a = mixer.clipAction(clip); a.play(); a.setEffectiveWeight(0); act[clip.name] = a; }
+    const ayaklar = ['LeftFoot', 'RightFoot', 'LeftToeBase', 'RightToeBase'].map(n => kemik('mixamorig:' + n)).filter(Boolean);
+    const p = new THREE.Vector3();
+    // Ayakların en alt noktası verilen zemine otursun (gömülmesin, havada kalmasın)
+    const zemineOtur = (zemin, w) => {
+      holder.position.y = 0;
+      if (w < 0.01) return;
+      fig.updateMatrixWorld(true);
+      let enAlt = Infinity;
+      for (const b of ayaklar) { b.getWorldPosition(p); enAlt = Math.min(enAlt, p.y); }
+      holder.position.y = (zemin + 0.04 - enAlt) * w;
+    };
+    return { root, kemik, hipsB, holder, takili, mixer, act, zemineOtur };
+  }
+
+  function athleteKur() {
+    // --- Yüzücü: bone, gözlük ---
+    const Y = hazirla(modeller.yuzucu);
+    Y.root.traverse(o => { if (o.isMesh && o.material) { o.material.roughness = 0.42; } });
+    const bone = new THREE.Group();
+    const kabuk = new THREE.Mesh(new THREE.SphereGeometry(0.1, 32, 18, 0, TAU, 0, Math.PI * 0.62), new THREE.MeshPhysicalMaterial({ color: '#c8141b', roughness: 0.28, clearcoat: 0.6, clearcoatRoughness: 0.2 }));
+    kabuk.scale.set(0.84, 0.93, 1.0); kabuk.rotation.x = -0.32; bone.add(kabuk);
+    [-1, 1].forEach(s => { const l = new THREE.Mesh(new THREE.CircleGeometry(0.03, 24), logoMat); l.position.set(0.084 * s, 0.035, -0.022); l.rotation.set(0, s * Math.PI / 2, s * 0.15); bone.add(l); });
+    Y.takili('mixamorig:Head', bone, 0, 0.098, -0.008);
+    const gozluk = new THREE.Group();
+    gozluk.add(new THREE.Mesh(new THREE.TorusGeometry(0.087, 0.0035, 6, 40, Math.PI * 1.1).rotateX(Math.PI / 2).rotateY(Math.PI * 0.95), new THREE.MeshStandardMaterial({ color: '#f2f2f2', roughness: 0.5 })));
+    [-1, 1].forEach(s => { const g = new THREE.Mesh(new THREE.SphereGeometry(0.019, 18, 12), darkMat); g.position.set(0.03 * s, 0, 0.083); g.scale.set(1.35, 0.85, 0.55); gozluk.add(g); });
+    gozluk.scale.set(0.9, 1, 1);
+    Y.takili('mixamorig:Head', gozluk, 0, 0.073, 0.0);
+
+    // Balıklama: yüzme animasyonunun "kollar ileride, gövde düz" karesi (elin kalçadan en ileride olduğu an)
     let suzulme = 0;
     {
-      const el = kemik('mixamorig:RightHand'), v1 = new THREE.Vector3(), v2 = new THREE.Vector3();
+      const el = Y.kemik('mixamorig:RightHand'), v1 = new THREE.Vector3(), v2 = new THREE.Vector3();
       let enIyi = -Infinity;
-      for (const k in act) act[k].setEffectiveWeight(k === 'swim' ? 1 : 0);
-      const sure = act.swim.getClip().duration;
-      for (let t = 0; t < sure; t += 0.05) {
-        act.swim.time = t; mixer.update(0); root.updateMatrixWorld(true);
-        el.getWorldPosition(v1); hipsB.getWorldPosition(v2);
-        const ileri = holder.worldToLocal(v1.clone()).z - holder.worldToLocal(v2.clone()).z;
+      Y.act.swim.setEffectiveWeight(1); if (Y.act.idle) Y.act.idle.setEffectiveWeight(0);
+      for (let t = 0; t < Y.act.swim.getClip().duration; t += 0.05) {
+        Y.act.swim.time = t; Y.mixer.update(0); Y.root.updateMatrixWorld(true);
+        el.getWorldPosition(v1); Y.hipsB.getWorldPosition(v2);
+        const ileri = Y.holder.worldToLocal(v1.clone()).z - Y.holder.worldToLocal(v2.clone()).z;
         if (ileri > enIyi) { enIyi = ileri; suzulme = t; }
       }
     }
-    const renk = { kirmizi: new THREE.Color('#c9151b'), beyaz: new THREE.Color('#f2f1ec'), siyah: new THREE.Color('#17181c'), lacivert: new THREE.Color('#0d2a4a') };
-    const ayakY = new THREE.Vector3();
 
-    window.__sporcu = { root, hipsB, holder };
+    // --- Dövüşçü: kıyafet renkleri, kuşak, eldiven ---
+    const D = hazirla(modeller.dovuscu);
+    const parca = ad => { let m = null; D.root.traverse(o => { if (o.isMesh && o.name.includes(ad)) m = o; }); return m; };
+    const kumas = m => { if (!m) return null; const k = m.material.clone(); k.map = null; k.roughness = 0.8; m.material = k; return k; };
+    const shirtMat = kumas(parca('Shirt')), shortsMat = kumas(parca('Shorts')), shoesMat = kumas(parca('Sneakers'));
+    if (shoesMat) { shoesMat.color.set('#b97c5a'); shoesMat.roughness = 0.6; }
+    const kusak = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.022, 8, 32).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#141414', roughness: 0.7 }));
+    kusak.scale.set(1.05, 1, 0.82);
+    D.takili('mixamorig:Hips', kusak, 0, 0.06, 0.005);
+    const eldivenler = ['mixamorig:LeftHand', 'mixamorig:RightHand'].map(b => {
+      const e = new THREE.Mesh(new THREE.SphereGeometry(0.068, 20, 14), redMat); e.scale.set(0.95, 1.15, 1.05);
+      return D.takili(b, e, 0, 0.07, 0.01);
+    });
+    const renk = { kirmizi: new THREE.Color('#c9151b'), beyaz: new THREE.Color('#f2f1ec'), siyah: new THREE.Color('#17181c') };
+
+    hips.children.forEach(c => { if (c !== Y.holder && c !== D.holder) c.visible = false; });
+
     athlete = {
       update(o) {
         const { dv, standW, tkW, kbW, dt, s } = o;
-        const wIdle = 1 - sm(0.1, 0.2, dv);
-        const wSwim = (1 - wIdle) * (1 - standW);
-        const w = { idle: wIdle, swim: wSwim, kick: tkW * 0.85, fight: tkW * 0.15 + (s > 6 ? kbW * 0.6 : 0), bag: kbW * (s > 6 ? 0.4 : 1) };
-        for (const k in act) act[k].setEffectiveWeight(w[k] || 0);
-        // Uçuş ve suya giriş: süzülme karesinde dur; suya girdikten sonra kulaç başlar
-        if (dv < 0.62) { act.swim.timeScale = 0; act.swim.time = suzulme; }
-        else act.swim.timeScale = s > 2.1 ? 0.75 : 1;
-        mixer.update(dt);
-        // Ayaklar zemine otursun: blokta blok üstüne, minder/ringde minderin üstüne
-        const kilit = Math.max(wIdle, standW);
-        holder.position.y = 0;
-        if (kilit > 0.01 && ayakUclari.length) {
-          fig.updateMatrixWorld(true);
-          let enAlt = Infinity;
-          for (const b of ayakUclari) { b.getWorldPosition(ayakY); enAlt = Math.min(enAlt, ayakY.y); }
-          const zemin = (standW > 0.5 ? DECK : BLOCK_TOP) + 0.035;
-          holder.position.y = (zemin - enAlt) * kilit;
+        const havuzda = standW < 0.5;
+        Y.holder.visible = havuzda; D.holder.visible = !havuzda;
+        if (havuzda) {
+          const wIdle = 1 - sm(0.1, 0.2, dv);
+          const wSwim = 1 - wIdle;
+          Y.act.idle.setEffectiveWeight(wIdle); Y.act.swim.setEffectiveWeight(wSwim);
+          // Uçuş ve suya giriş: süzülme karesinde dur; suya girdikten sonra kulaç başlar
+          if (dv < 0.62) { Y.act.swim.timeScale = 0; Y.act.swim.time = suzulme; }
+          else Y.act.swim.timeScale = s > 2.1 ? 0.75 : 1;
+          Y.mixer.update(dt);
+          Y.zemineOtur(BLOCK_TOP, wIdle);
+          return wSwim * (1 - standW);
         }
-        // Su: lacivert yüzme tişörtü + kırmızı mayo + bone/gözlük; dojo: beyaz kıyafet + kuşak; ring: siyah atlet, kırmızı şort, eldiven
-        // (Modelde tişörtün altında gövde yok; tişört hep görünür, yalnız rengi değişir)
-        const suda = wIdle + wSwim > 0.5;
-        if (hairM) hairM.visible = !suda;
-        bone.visible = gozluk.visible = suda;
+        D.act.kick.setEffectiveWeight(tkW * 0.85);
+        D.act.fight.setEffectiveWeight(tkW * 0.15 + (s > 6 ? kbW * 0.6 : 0));
+        D.act.bag.setEffectiveWeight(kbW * (s > 6 ? 0.4 : 1));
+        D.mixer.update(dt);
+        D.zemineOtur(DECK, 1);
         kusak.visible = tkW > 0.5;
         eldivenler.forEach(e => { e.visible = kbW > 0.3; });
         if (shortsMat) shortsMat.color.copy(renk.kirmizi).lerp(renk.beyaz, tkW);
-        if (shirtMat) shirtMat.color.copy(renk.lacivert).lerp(renk.beyaz, tkW).lerp(renk.siyah, kbW);
-        if (body) body.material.roughness = suda ? 0.35 : 0.6;
-        return wSwim;
+        if (shirtMat) shirtMat.color.copy(renk.beyaz).lerp(renk.siyah, kbW);
+        return 0;
       }
     };
   }
