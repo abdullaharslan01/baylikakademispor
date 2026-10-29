@@ -1,2 +1,9 @@
 .DS_Store
 .claude/
+# Mixamo kaynak dosyaları (büyük; lisans gereği ham hali paylaşılmaz). Sitede yalnız public/models/sporcu.glb kullanılır.
+assets/mixamo/
+node_modules/
+dist/
+data/
+.env
+public/models/sporcu.glb

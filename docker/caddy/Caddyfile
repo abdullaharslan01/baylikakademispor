@@ -1,0 +1,110 @@
+{$SITE_ADDRESS::80} {
+	# Sunucuda .env → CADDY_TLS="tls internal": Cloudflare (SSL modu Full) ile sunucu arası şifreli bağlantı.
+	# Cloudflare Origin sertifikası kullanılırsa: CADDY_TLS="tls /etc/caddy/origin.pem /etc/caddy/origin-key.pem"
+	{$CADDY_TLS}
+	root * /srv/www
+
+	# www → ana alan adı (tek kanonik adres)
+	@www host www.alparslanceylansurucukursu.com.tr
+	redir @www https://alparslanceylansurucukursu.com.tr{uri} 301
+	encode zstd gzip
+	# Panelden görsel yükleme en fazla 12 MB, video yükleme 60 MB; daha büyük gövde sunucuya hiç ulaşmaz.
+	# Herkese açık uçlar (randevu, sayaç) küçük JSON alır: büyük gövdeyle sunucu yorulmasın.
+	@videoYukle {
+		path /api/blog.php
+		query islem=video-yukle
+	}
+	request_body @videoYukle {
+		max_size 64MB
+	}
+	@panelApi {
+		path /api/blog.php
+		not query islem=video-yukle
+	}
+	request_body @panelApi {
+		max_size 16MB
+	}
+	@digerIstek not path /api/blog.php
+	request_body @digerIstek {
+		max_size 64KB
+	}
+
+	# İç dosyalara dışarıdan erişim yok
+	@gizli {
+		path /_inc/* /api/_* /data/*
+		not path /_inc/sitemap.php /_inc/llms.php /_inc/anasayfa.php /_inc/indexnow.php
+	}
+	error @gizli 404
+
+	# Ana sayfa sunucuda tamamlanır (son yazılar, yorumlar, videolar HTML'de gelir)
+	redir /index.html / 301
+	# redir, rewrite'tan önce çalışır: yalnız doğrudan istenen adresi yakalar (ana sayfanın kopyası olmasın)
+	redir /_inc/anasayfa.php / 301
+	redir /blog/index.php /blog/ 301
+	rewrite / /_inc/anasayfa.php
+
+	# /blog/yazi-adi -> yazı sayfası
+	@yazi path_regexp yazi ^/blog/([a-z0-9-]+)/?$
+	rewrite @yazi /blog/yazi.php?slug={re.yazi.1}
+	rewrite /blog/ /blog/index.php
+	redir /blog /blog/ 308
+	rewrite /sitemap.xml /_inc/sitemap.php
+	rewrite /llms.txt /_inc/llms.php
+	rewrite /indexnow.txt /_inc/indexnow.php
+	rewrite /kvkk/ /kvkk/index.php
+	redir /kvkk /kvkk/ 308
+
+	# Yüklenen görseller (PHP çalıştırılmaz)
+	handle_path /uploads/* {
+		root * /srv/data/uploads
+		header Cache-Control "public, max-age=31536000, immutable"
+		file_server
+	}
+
+	header /assets/* Cache-Control "public, max-age=31536000, immutable"
+	header /fonts/* Cache-Control "public, max-age=2592000"
+	header /img/* Cache-Control "public, max-age=604800"
+	header /video/* Cache-Control "public, max-age=2592000"
+	header {
+		X-Content-Type-Options nosniff
+		Referrer-Policy strict-origin-when-cross-origin
+		# Site başka bir sitenin çerçevesine gömülemez (tıklama tuzağına karşı)
+		X-Frame-Options SAMEORIGIN
+		# "?": panelin kendi, daha sıkı politikası (aşağıda) varsa ona dokunulmaz
+		?Content-Security-Policy "frame-ancestors 'self'; base-uri 'self'; object-src 'none'; form-action 'self'"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+		# Yalnız HTTPS üzerinden etkilidir; yerelde (http) tarayıcı yok sayar
+		Strict-Transport-Security "max-age=31536000"
+		-Server
+		-Via
+	}
+	# Yönetim paneli yalnız gizli adresten açılır (.env → PANEL_YOLU, git'te yok).
+	# /yonetim/ adresi dışarıya 404 döner; panelin varlığı robots.txt'te de yazmaz.
+	@panel path {$PANEL_YOLU} {$PANEL_YOLU}/
+	header @panel {
+		X-Robots-Tag "noindex, nofollow"
+		Cache-Control "no-store"
+		# Panelde yalnız kendi betiklerimiz çalışır (bir açıktan sızan kod oturumu ele geçiremesin)
+		Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; media-src 'self' blob:; font-src 'self'; connect-src 'self'; frame-src https://www.youtube-nocookie.com https://www.youtube.com https://www.instagram.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+	}
+	route {
+		error /yonetim* 404
+		rewrite @panel /yonetim/index.html
+	}
+	header /api/* X-Robots-Tag "noindex, nofollow"
+
+	# Yalnız var olan PHP dosyaları çalışır; yoksa 404 sayfasına düşer
+	@php {
+		path *.php
+		file
+	}
+	php_fastcgi @php php:9000
+	file_server
+
+	# Bulunamayan adresler için tasarımlı 404 sayfası
+	handle_errors 404 {
+		root * /srv/www
+		rewrite * /_inc/404.php
+		php_fastcgi php:9000
+	}
+}

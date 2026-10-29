@@ -1,0 +1,12 @@
+# GitHub Actions → sunucu rsync'inde gönderilmeyenler (sunucudakiler de silinmez)
+/.git/
+/.github/
+/node_modules/
+/data/
+/yedekler/
+/.env
+/.claude/
+/graft/
+/.ignore
+/docker/caddy/origin*.pem
+/yedek/

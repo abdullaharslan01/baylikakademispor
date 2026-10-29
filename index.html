@@ -14,11 +14,11 @@
 <meta property="og:description" content="Eryaman'da birebir yüzme dersleri, Sincan'da çocuklar için taekwondo, Ankara'da kickboks.">
 <meta property="og:url" content="https://baylikakademispor.com/">
 <!-- TODO: og:image için 1200x630 paylaşım görseli hazırlanacak -->
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='32'/%3E%3Cg fill='none' stroke='%23fff' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M35 22 29 37M34 25 22 28M34 25l10 6M29 37l-3 11 2 9M29 37l13-5 13-10'/%3E%3C/g%3E%3Ccircle cx='38' cy='15' r='5' fill='%23fff'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 120 120%22%3E%3Ccircle cx=%2260%22 cy=%2260%22 r=%2260%22 fill=%22%23d71920%22/%3E%3Ccircle cx=%2260%22 cy=%2260%22 r=%2250%22 fill=%22%230d0f13%22/%3E%3Cpath d=%22M14 80c8-5 15-5 23 0s15 5 23 0 15-5 23 0 15 5 23 0v6c-8 5-15 5-23 0s-15-5-23 0-15 5-23 0-15-5-23 0z%22 fill=%22%2314b8cc%22/%3E%3Cpath d=%22M20 92c7-4 13-4 20 0s13 4 20 0 13-4 20 0 13 4 20 0%22 fill=%22none%22 stroke=%22%237ce6f1%22 stroke-width=%223%22 stroke-linecap=%22round%22/%3E%3Cg fill=%22none%22 stroke=%22%23fff%22 stroke-width=%227%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M63 40 55 60M62 44 46 49M62 44l15 8M55 60l-4 13M55 60l18-6 20-15%22/%3E%3C/g%3E%3Ccircle cx=%2268%22 cy=%2229%22 r=%227%22 fill=%22%23fff%22/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="preload" href="/fonts/big-shoulders-display-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/plus-jakarta-sans-latin-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/fonts/fonts.css">
 
 <script type="application/ld+json">
 {
@@ -74,10 +74,10 @@
   --red:#d71920; --red-hi:#ff4a53; --ink:#0d0f13; --paper:#f2efea;
   --sea:#14b8cc; --sea-hi:#7ce6f1; --night:#0a2233;
   --wa:#25d366; --wa-ink:#04240f;
-  --display:'Anton', Impact, 'Arial Narrow', sans-serif;
-  --body:'Manrope', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --display:'Big Shoulders Display', 'Arial Narrow', Impact, sans-serif;
+  --body:'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --pad:clamp(16px, 5vw, 56px);
-  --maxw:1120px;
+  --maxw:1240px;
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:70px;-webkit-text-size-adjust:100%;background:var(--night)}
@@ -110,15 +110,13 @@ html.gl .lite-art{opacity:0;visibility:hidden;transition:opacity 1.2s ease,visib
   -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;flex:0 0 auto}
 .brand .logo{width:36px;height:36px}
-.brand b{font-family:var(--display);font-weight:400;font-size:20px;letter-spacing:.02em;text-transform:uppercase;display:none}
-.nav{display:flex;gap:2px;margin-left:auto}
+.brand b{font-family:var(--display);font-weight:900;font-size:20px;letter-spacing:.02em;text-transform:uppercase;display:none}
+.nav{display:flex;gap:2px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
 .nav a{font-size:13px;font-weight:700;text-decoration:none;padding:8px 9px;border-radius:999px;color:rgba(255,255,255,.82);transition:background .3s,color .3s}
 .nav a[aria-current="true"]{background:#fff;color:var(--ink)}
-.top-wa{flex:0 0 auto;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--wa);color:var(--wa-ink)}
-.top-wa svg{width:22px;height:22px}
 .progress{position:absolute;left:0;right:0;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--sea-hi),#fff 45%,var(--red-hi));transform-origin:0 50%;transform:scaleX(0)}
 @media (min-width:640px){.brand b{display:block}.nav a{font-size:14px;padding:8px 14px}}
-@media (max-width:340px){.top-wa{display:none}.nav a{padding:8px 6px}}
+@media (max-width:370px){.nav a{padding:8px 7px;font-size:12.5px}}
 
 /* ---------- Butonlar ---------- */
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:14px 22px;border-radius:999px;
@@ -145,10 +143,10 @@ html.gl .swim,html.gl .under{--head-bg:rgba(4,28,42,.84);--head-shadow:0 30px 60
 html.gl .tkd{--head-bg:rgba(255,255,255,.93);--head-shadow:0 30px 60px -34px rgba(0,0,0,.35)}
 html.gl .kb{--head-bg:rgba(12,12,14,.86);--head-shadow:0 30px 70px -30px rgba(215,25,32,.45)}
 .hero-sub,.rating{text-shadow:0 2px 14px rgba(0,0,0,.7)}
-.sec-head h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(42px, 12vw, 92px);line-height:1.06;letter-spacing:.005em;margin:14px 0 16px}
+.sec-head h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(42px, 12vw, 92px);line-height:1.06;letter-spacing:.005em;margin:14px 0 16px}
 .sec-head .lead{font-size:clamp(17px, 4.6vw, 20px);line-height:1.55;max-width:560px}
 .card{border-radius:22px;padding:24px 22px;max-width:460px;position:relative}
-.card h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:28px;line-height:1.15;letter-spacing:.01em;margin-bottom:10px}
+.card h3{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:28px;line-height:1.15;letter-spacing:.01em;margin-bottom:10px}
 .card p + p{margin-top:10px}
 .tag{position:absolute;top:18px;right:18px;font-size:12px;font-weight:800;letter-spacing:.08em;opacity:.7}
 
@@ -160,9 +158,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .hero{min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:flex-start;text-align:center;padding-top:calc(86px + env(safe-area-inset-top));padding-bottom:40px}
 .hero::before{background:linear-gradient(180deg,#081b29 0%,#0a2233 38%,#0b5d75 52%,#14a7bd 72%,#0d7f98 100%)}
 .hero-inner{max-width:760px;margin:0 auto;display:flex;flex-direction:column;align-items:center}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;padding:7px 14px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18)}
-.eyebrow i{width:8px;height:8px;border-radius:50%;background:var(--red-hi);box-shadow:0 0 0 4px rgba(255,74,83,.25)}
-.hero h1{font-family:var(--display);font-weight:400;text-transform:uppercase;line-height:.98;font-size:clamp(72px, 22vw, 170px);letter-spacing:.01em;margin:18px 0 12px;text-shadow:0 6px 40px rgba(0,0,0,.35)}
+.hero h1{font-family:var(--display);font-weight:900;text-transform:uppercase;line-height:.98;font-size:clamp(72px, 22vw, 170px);letter-spacing:.01em;margin:18px 0 12px;text-shadow:0 6px 40px rgba(0,0,0,.35)}
 .hero h1 .ln{display:block;overflow:hidden;padding-top:.12em;margin-top:-.1em}
 .hero h1 .ln > span{display:inline-block;animation:rise 1s cubic-bezier(.2,.85,.2,1) both}
 .hero h1 .ln:nth-child(2) > span{animation-delay:.12s;color:transparent;-webkit-text-stroke:2px #fff}
@@ -196,7 +192,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .cards{display:flex;flex-direction:column;gap:clamp(70px, 16vh, 160px);padding:12vh 0 8vh}
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:16px}
 .facts li{background:rgba(124,230,241,.1);border-radius:14px;padding:12px 8px;text-align:center;font-size:13px;font-weight:700;line-height:1.25}
-.facts b{display:block;font-family:var(--display);font-weight:400;font-size:30px;line-height:1;color:var(--sea-hi);margin-bottom:4px}
+.facts b{display:block;font-family:var(--display);font-weight:900;font-size:30px;line-height:1;color:var(--sea-hi);margin-bottom:4px}
 .checks li{position:relative;padding-left:28px;margin-top:8px}
 .checks li::before{content:"";position:absolute;left:0;top:4px;width:18px;height:18px;border-radius:50%;background:var(--sea-hi);
   -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 0a12 12 0 1 0 0 24 12 12 0 0 0 0-24zm-1.7 17.3-5-5 1.9-1.9 3.1 3.1 6.9-6.9 1.9 1.9z'/%3E%3C/svg%3E") center/contain no-repeat;
@@ -219,7 +215,11 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .coach small{display:block;font-size:14px;opacity:.82;line-height:1.45}
 .quote-mini{margin-top:16px;padding-left:14px;border-left:3px solid var(--sea-hi);font-style:italic;opacity:.92}
 .card-cta .btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.price{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.06)}
+.price{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(124,230,241,.2)}
+.price b{display:block;font-size:16px}
+.price small{display:block;font-size:13.5px;opacity:.8;margin-top:2px;max-width:240px}
+.price-link{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 14px;border-radius:999px;background:var(--wa);color:var(--wa-ink);font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
+.price-link svg{width:18px;height:18px}
 .bubbles i{position:absolute;bottom:-20px;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.55);animation:up 9s linear infinite}
 @keyframes up{to{transform:translateY(-120vh)}}
 
@@ -270,15 +270,15 @@ html.js [data-reveal].in{opacity:1;transform:none}
 /* ---------- 7. FİNAL ---------- */
 .final{color:#fff;padding-top:18vh;padding-bottom:calc(40px + env(safe-area-inset-bottom))}
 .final::before{background:#0a0a0c}
-.final .panel{background:rgba(10,10,12,.9);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:clamp(22px,5vw,48px);max-width:var(--maxw);margin:0 auto}
-.final h2{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(40px, 11vw, 84px);line-height:1.06}
-.final h3.block-title{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(26px, 7vw, 38px);line-height:1;margin:44px 0 16px}
+.final .panel{background:rgba(10,10,12,.9);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:clamp(22px,5vw,48px);max-width:1360px;margin:0 auto}
+.final h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(40px, 11vw, 84px);line-height:1.06}
+.final h3.block-title{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(26px, 7vw, 38px);line-height:1;margin:44px 0 16px}
 .branch-cards{display:grid;gap:12px;margin-top:22px}
 .bc{display:flex;align-items:center;gap:14px;padding:18px;border-radius:20px;text-decoration:none;transition:transform .2s}
 .bc:active{transform:scale(.98)}
 .bc .ico{flex:0 0 auto;width:52px;height:52px;border-radius:16px;display:grid;place-items:center}
 .bc .ico svg{width:30px;height:30px}
-.bc b{display:block;font-family:var(--display);font-weight:400;font-size:26px;text-transform:uppercase;line-height:1}
+.bc b{display:block;font-family:var(--display);font-weight:900;font-size:26px;text-transform:uppercase;line-height:1}
 .bc small{display:block;font-size:14px;opacity:.85;margin-top:4px}
 .bc .go{margin-left:auto;font-weight:800;font-size:14px;white-space:nowrap}
 .bc.swim-c{background:linear-gradient(135deg,#0e8ea6,#0a5a74);color:#fff}
@@ -296,7 +296,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .review{display:flex;flex-direction:column;gap:10px}
 .review .stars{color:#ffc93c;letter-spacing:2px}
 .big-rating{display:flex;align-items:center;gap:16px;text-decoration:none}
-.big-rating b{font-family:var(--display);font-weight:400;font-size:64px;line-height:1}
+.big-rating b{font-family:var(--display);font-weight:900;font-size:64px;line-height:1}
 .contact-list li{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:16px}
 .contact-list li span{opacity:.7}
 .contact-list a{font-weight:800;text-decoration:none;word-break:break-all}
@@ -329,9 +329,9 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .days input:disabled + span{opacity:.35;text-decoration:line-through}
 
 /* Google yorumları: sonsuz kayan bant */
-.reviews,.blog{max-width:var(--maxw);margin:0 auto 18px;background:rgba(10,10,12,.9);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:clamp(22px,5vw,44px) 0;overflow:hidden}
+.reviews,.blog{max-width:1360px;margin:0 auto 18px;background:rgba(10,10,12,.9);border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:clamp(22px,5vw,44px) 0;overflow:hidden}
 .rv-head{display:flex;flex-wrap:wrap;gap:18px;align-items:flex-end;justify-content:space-between;padding:0 clamp(22px,5vw,44px)}
-.rv-title{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(32px,8.5vw,56px);line-height:1.08;margin-top:8px;max-width:620px}
+.rv-title{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(32px,8.5vw,56px);line-height:1.08;margin-top:8px;max-width:620px}
 .g-pill{display:inline-flex;align-items:center;gap:12px;padding:12px 20px 12px 16px;border-radius:999px;background:#fff;color:#111;text-decoration:none;box-shadow:0 18px 40px -20px rgba(0,0,0,.6)}
 .g-pill .g{width:30px;height:30px}
 .g-pill b{font-size:30px;font-weight:800;letter-spacing:-.02em}
@@ -352,42 +352,74 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .rv-note{padding:14px clamp(22px,5vw,44px) 0;font-size:12.5px;opacity:.55}
 @media (prefers-reduced-motion: reduce){.marquee{overflow-x:auto}.track{animation:none}}
 
-/* Blog */
-.posts{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px clamp(22px,5vw,44px) 6px;scrollbar-width:none}
-.posts::-webkit-scrollbar{display:none}
-.post{flex:0 0 auto;width:min(80vw,330px);scroll-snap-align:start;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:22px;overflow:hidden;text-align:left;color:#fff;font:inherit;cursor:pointer;padding:0;display:flex;flex-direction:column}
+/* Blog: anasayfada geniş ızgara (ilk yazı büyük) */
+.posts{display:grid;grid-template-columns:1fr;gap:16px;padding:26px clamp(22px,5vw,44px) 6px}
+.post{display:flex;flex-direction:column;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:22px;overflow:hidden;color:#fff;text-decoration:none;transition:transform .25s,border-color .25s}
+.post:hover{transform:translateY(-4px);border-color:rgba(124,230,241,.45)}
 .post:hover .cover::after{transform:scale(1.06)}
-.cover{height:150px;position:relative;overflow:hidden;display:grid;place-items:center}
+.cover{aspect-ratio:16/9;position:relative;overflow:hidden;display:grid;place-items:center}
 .cover::after{content:"";position:absolute;inset:0;background:inherit;transition:transform .6s}
 .cover svg{position:relative;z-index:1;width:64px;height:64px;color:rgba(255,255,255,.92)}
-.cover.c-swim{background:radial-gradient(120% 90% at 20% 0%,#7ce6f1,#0e8ea6 45%,#0a3d55)}
-.cover.c-tkd{background:radial-gradient(120% 90% at 80% 0%,#fff,#f0e9e2 40%,#d71920 140%)}
-.cover.c-tkd svg{color:#d71920}
-.cover.c-kb{background:radial-gradient(120% 90% at 50% 0%,#ff4a53,#7a0c10 50%,#0a0a0c)}
-.post .pb{padding:18px 18px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.cover.c-yuzme{background:radial-gradient(120% 90% at 20% 0%,#7ce6f1,#0e8ea6 45%,#0a3d55)}
+.cover.c-taekwondo{background:radial-gradient(120% 90% at 80% 0%,#fff,#f0e9e2 40%,#d71920 140%)}
+.cover.c-taekwondo svg{color:#d71920}
+.cover.c-kickboks{background:radial-gradient(120% 90% at 50% 0%,#ff4a53,#7a0c10 50%,#0a0a0c)}
+.cover.c-saglik{background:radial-gradient(120% 90% at 30% 0%,#bdf3d4,#2c9f6b 55%,#0d3d2b)}
+.post .pb{padding:18px 20px 22px;display:flex;flex-direction:column;gap:8px;flex:1}
 .post .meta{font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--sea-hi)}
-.post h3{font-size:19px;line-height:1.3;font-weight:800}
-.post p{font-size:14.5px;opacity:.78;line-height:1.5}
+.post h3{font-size:20px;line-height:1.3;font-weight:800}
+.post p{font-size:15px;opacity:.78;line-height:1.5}
 .post .more{margin-top:auto;padding-top:6px;font-weight:800;font-size:14px}
-.post-modal{border:0;padding:0;margin:auto;width:min(720px,100%);max-height:92vh;max-height:92dvh;border-radius:26px;background:#fff;color:#1d1f23;overflow:auto}
-.post-modal::backdrop{background:rgba(5,8,12,.72)}
-.post-modal article{padding:0 0 28px}
-.pm-cover{height:200px;display:grid;place-items:center}
-.pm-cover svg{width:80px;height:80px;color:#fff}
-.pm-close{position:sticky;top:12px;float:right;margin:12px 12px 0 0;z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.55);color:#fff;font-size:26px;cursor:pointer}
-.pm-meta{padding:22px 24px 0;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#0e7d93}
-.post-modal h2{padding:6px 24px 0;font-size:clamp(24px,6vw,32px);line-height:1.2;font-weight:800}
-.pm-body{padding:12px 24px 0;font-size:17px;line-height:1.7;color:#33363c}
-.pm-body p+p,.pm-body h3+p,.pm-body ul+p{margin-top:12px}
-.pm-body h3{margin-top:20px;font-size:19px}
-.pm-body ul{margin-top:10px;padding-left:20px;list-style:disc}
-.post-modal .btn{margin-left:24px}
+.blog-more{padding:22px clamp(22px,5vw,44px) 0;text-align:center}
+@media (min-width:700px){.posts{grid-template-columns:repeat(2,1fr)}.post--big{grid-column:1/-1;flex-direction:row}.post--big .cover{flex:1.3;aspect-ratio:auto;min-height:280px}.post--big .pb{flex:1;justify-content:center;padding:28px}.post--big h3{font-size:clamp(24px,2.6vw,34px)}.post--big p{font-size:17px}}
+@media (min-width:1100px){.posts{grid-template-columns:repeat(4,1fr)}.post--big{grid-column:1/-1}}
 
-/* Yüzen WhatsApp butonu */
-.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:25;display:flex;align-items:center;gap:8px;height:56px;padding:0 18px 0 16px;border-radius:999px;background:var(--wa);color:var(--wa-ink);font-weight:800;text-decoration:none;
-  box-shadow:0 14px 34px -10px rgba(0,0,0,.55);transform:translateY(120px);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
-.fab svg{width:26px;height:26px}
-.fab.show{transform:none}
+/* Tam genişlik bantlar: Google yorumları ve Instagram */
+.reviews,.insta{max-width:none;margin:0 calc(-1 * var(--pad)) 18px;border-radius:0;border-left:0;border-right:0;background:rgba(10,10,12,.94);border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08);padding:clamp(34px,6vw,64px) 0;overflow:hidden}
+.reviews .rv-head,.insta .rv-head{max-width:1360px;margin:0 auto}
+.reviews .rv-title,.insta .rv-title{font-size:clamp(34px,6.5vw,64px)}
+.reviews .marquee{-webkit-mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent);mask:linear-gradient(90deg,transparent,#000 3%,#000 97%,transparent)}
+.reviews .rv-note{max-width:1360px;margin:0 auto}
+.btn-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%);color:#fff;min-height:46px;font-size:14px;padding:10px 18px}
+.ig-strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px max(var(--pad), calc((100vw - 1360px)/2)) 8px;scrollbar-width:none}
+.ig-strip::-webkit-scrollbar{display:none}
+.ig-item{flex:0 0 auto;width:min(84vw,340px);scroll-snap-align:center;border-radius:18px;overflow:hidden;background:#fff}
+.ig-item iframe{display:block;width:100%;height:520px;border:0}
+.ig-nav{display:flex;gap:10px;justify-content:center;margin-top:14px}
+.ig-nav button{width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:20px;cursor:pointer}
+/* Haritalar */
+.fcard.loc{padding:0;overflow:hidden;display:flex;flex-direction:column}
+.fcard.loc > :not(.map){margin-left:20px;margin-right:20px}
+.fcard.loc h4{margin-top:16px}
+.fcard.loc .row{margin-bottom:18px}
+.map{display:block;width:100%;height:230px;border:0;filter:grayscale(.15) contrast(1.05)}
+/* Randevu formu: derli toplu */
+.quick{display:grid;gap:4px 28px;padding:clamp(18px,3vw,30px)}
+.quick > p:first-child{margin-bottom:4px}
+.quick fieldset{margin-top:12px}
+.quick legend{margin-bottom:6px;font-size:12px}
+.chips span{min-height:40px;padding:8px 14px;font-size:14.5px}
+.days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,#000 88%,transparent);mask:linear-gradient(90deg,#000 88%,transparent)}
+.days::-webkit-scrollbar{display:none}
+.days span{min-width:56px;padding:6px 8px}
+.quick .inputs{margin-top:12px}
+.quick .preview{white-space:pre-line;font-size:13.5px;margin-top:12px}
+@media (min-width:900px){
+  .quick{grid-template-columns:1fr 1fr;align-items:start}
+  .quick > p:first-child{grid-column:1/-1}
+  .quick .preview{align-self:stretch}
+  .quick button[type=submit]{align-self:end}
+}
+
+/* Sağ altta yuvarlak hızlı iletişim düğmeleri */
+.fabs{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:25;display:flex;flex-direction:column;gap:12px;transform:translateX(90px);transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.fabs.show{transform:none}
+.fab{display:grid;place-items:center;width:56px;height:56px;border-radius:50%;color:#fff;box-shadow:0 12px 28px -8px rgba(0,0,0,.55);transition:transform .2s}
+.fab:active{transform:scale(.92)}
+.fab svg{width:27px;height:27px}
+.fab-wa{background:var(--wa);color:#fff}
+.fab-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
+.fab-cal{background:#0b6fa4}
 
 @media (min-width:760px){
   .branch-cards{grid-template-columns:repeat(3,1fr)}
@@ -408,11 +440,14 @@ html.js [data-reveal].in{opacity:1;transform:none}
 </head>
 <body>
 <a class="skip" href="#yuzme">İçeriğe geç</a>
+<svg id="logo-src" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 120 120" width="0" height="0" style="position:absolute" aria-hidden="true"><defs><path id="lr" d="M60 60m-51 0a51 51 0 1 1 102 0a51 51 0 1 1-102 0"/></defs><circle cx="60" cy="60" r="60" fill="#d71920"/><circle cx="60" cy="60" r="44" fill="#0d0f13"/><text font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="11.5" fill="#fff" letter-spacing="1.2"><textPath href="#lr" xlink:href="#lr" startOffset="0">BAYLIK AKADEMİ • SPOR KULÜBÜ •</textPath></text><path d="M22 78c7-4 13-4 19 0s13 4 19 0 13-4 19 0 13 4 19 0v5c-7 4-13 4-19 0s-13-4-19 0-13 4-19 0-13-4-19 0z" fill="#14b8cc"/><g fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><path d="M63 42 56 59M62 46 48 50M62 46l13 7M56 59l-4 12M56 59l16-5 18-13"/></g><circle cx="67" cy="32" r="6.5" fill="#fff"/></svg>
 
 <!-- İkon seti -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.66 15l-1.3 4.8 4.92-1.29A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-2.92.77.78-2.85-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.14c-.25-.12-1.46-.72-1.69-.8-.23-.09-.39-.13-.55.12-.17.25-.64.8-.78.96-.14.17-.29.19-.54.06a6.7 6.7 0 0 1-3.32-2.9c-.25-.43.25-.4.72-1.34.08-.16.04-.3-.02-.43-.06-.12-.55-1.33-.76-1.82-.2-.48-.4-.41-.55-.42h-.47a.9.9 0 0 0-.65.3 2.74 2.74 0 0 0-.86 2.04c0 1.2.88 2.37 1 2.53.12.17 1.73 2.64 4.2 3.7 1.55.67 2.16.73 2.94.61.47-.07 1.46-.6 1.66-1.17.21-.58.21-1.07.15-1.17-.06-.11-.22-.17-.47-.3z"/></symbol>
-  <symbol id="i-logo" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" fill="#000"/><g fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"><path d="M35 22 29 37M34 25 22 28M34 25l10 6M29 37l-3 11 2 9M29 37l13-5 13-10"/></g><circle cx="38" cy="15" r="5" fill="#fff"/></symbol>
+  <symbol id="i-logo" viewBox="0 0 120 120"><circle cx="60" cy="60" r="60" fill="#d71920"/><circle cx="60" cy="60" r="50" fill="#0d0f13"/><path d="M14 80c8-5 15-5 23 0s15 5 23 0 15-5 23 0 15 5 23 0v6c-8 5-15 5-23 0s-15-5-23 0-15 5-23 0-15-5-23 0z" fill="#14b8cc"/><path d="M20 92c7-4 13-4 20 0s13 4 20 0 13-4 20 0 13 4 20 0" fill="none" stroke="#7ce6f1" stroke-width="3" stroke-linecap="round"/><g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"><path d="M63 40 55 60M62 44 46 49M62 44l15 8M55 60l-4 13M55 60l18-6 20-15"/></g><circle cx="68" cy="29" r="7" fill="#fff"/></symbol>
+  <symbol id="i-ig" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></g><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></g><path d="M8 14h3v3H8z" fill="currentColor"/></symbol>
   <symbol id="i-swim" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="7" r="2"/><path d="M4 13l5-4 3 2.5L15 10M2 17c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0 1.5.5 2 .5"/></g></symbol>
   <symbol id="i-kick" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="4.5" r="2"/><path d="M13 8l-2.5 5.5M12.5 9.5 8 11M12.5 9.5l3.5 2M10.5 13.5 9.5 18l.8 3.5M10.5 13.5l5-1.5 5-4"/></g></symbol>
   <symbol id="i-glove" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 14V8a4 4 0 0 1 4-4h3a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4H9"/><path d="M7 11H5.5A1.5 1.5 0 0 0 4 12.5v1A3.5 3.5 0 0 0 7.5 17H8v3h8v-4"/><path d="M11 8h4"/></g></symbol>
@@ -427,10 +462,8 @@ html.js [data-reveal].in{opacity:1;transform:none}
     <a href="#yuzme">Yüzme</a>
     <a href="#taekwondo">Taekwondo</a>
     <a href="#kickboks">Kickboks</a>
+    <a href="blog/">Blog</a>
   </nav>
-  <a class="top-wa" href="https://wa.me/905428980601?text=Merhaba%2C%20Bayl%C4%B1k%20Akademi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan yazın (yeni sekmede açılır)">
-    <svg aria-hidden="true"><use href="#i-wa"/></svg>
-  </a>
   <span class="progress" aria-hidden="true"></span>
 </header>
 
@@ -458,7 +491,6 @@ html.js [data-reveal].in{opacity:1;transform:none}
     </div>
 
     <div class="hero-inner">
-      <p class="eyebrow"><i></i>Ankara · Sincan &amp; Eryaman</p>
       <h1 id="hero-title"><span class="ln"><span>Baylık</span></span><span class="ln"><span>Akademi</span></span></h1>
       <p class="hero-sub">Yüzme, taekwondo ve kickboks. Çocuklar ve yetişkinler için, suya ilk adımdan minderdeki ilk tekmeye.</p>
       <div class="hero-cta">
@@ -568,7 +600,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
           <h3>Önce tanışalım</h3>
           <p>Kayıttan önce ön görüşme yapabilirsiniz. Havuzu görür, eğitmeninizle tanışır, sorularınızı yerinde sorarsınız.</p>
           <!-- TODO: Fiyatlar bilinçli olarak yazılmadı; fiyat sorusu WhatsApp'a yönlendiriliyor. -->
-          <div class="price"><span>Ücret ve güncel kampanyalar</span><span class="ph">WhatsApp'tan sorun</span></div>
+          <div class="price"><div><b>Ücret ve kampanyalar</b><small>Paket ücreti ve dönemsel kampanyaları hemen iletelim.</small></div><a class="price-link" href="https://wa.me/905428980601?text=Merhaba%2C%20y%C3%BCzme%20dersi%20%C3%BCcretleri%20ve%20g%C3%BCncel%20kampanyalar%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Ücret bilgisi al</a></div>
           <div class="btns">
             <a class="btn btn-wa" href="#randevu" data-branch="yüzme dersleri">
               <svg aria-hidden="true"><use href="#i-wa"/></svg>Ön görüşme randevusu al
@@ -648,7 +680,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
             <dt>Yaş grupları</dt><dd>5–8 yaş · 9–14 yaş</dd>
             <dt>Ders günleri</dt><dd>Salı · Perşembe 17:30<br>Cumartesi 11:00</dd>
             <dt>Grup</dt><dd>Yaşa ve kuşağa göre</dd>
-            <dt>Ücret</dt><dd><span class="ph">WhatsApp'tan sorun</span></dd>
+            <dt>Ücret</dt><dd><a class="price-link" href="https://wa.me/905428980601?text=Merhaba%2C%20taekwondo%20kursu%20%C3%BCcretleri%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Güncel ücreti öğren</a></dd>
           </dl>
           <a class="btn btn-red" style="margin-top:18px;width:100%" href="https://wa.me/905428980601?text=Merhaba%2C%20%C3%A7ocu%C4%9Fum%20i%C3%A7in%20taekwondo%20kursu%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan taekwondo kursu hakkında bilgi alın (yeni sekmede açılır)">
             <svg aria-hidden="true"><use href="#i-wa"/></svg>Taekwondo için yaz
@@ -678,7 +710,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
           <dt>Yaş grubu</dt><dd>7–17 yaş çocuk · Yetişkin</dd>
           <dt>Lokasyon</dt><dd>Sincan salonu · Etimesgut Emirler</dd>
           <dt>Gün / saat</dt><dd>Pzt · Çrş · Cuma 19:00</dd>
-          <dt>Ücret</dt><dd><span class="ph">WhatsApp'tan sorun</span></dd>
+          <dt>Ücret</dt><dd><a class="price-link" href="https://wa.me/905428980601?text=Merhaba%2C%20kickboks%20dersleri%20%C3%BCcretleri%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Güncel ücreti öğren</a></dd>
         </dl>
         <a class="btn btn-wa" style="margin-top:18px;width:100%" href="https://wa.me/905428980601?text=Merhaba%2C%20kickboks%20dersleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan kickboks dersleri hakkında bilgi alın (yeni sekmede açılır)">
           <svg aria-hidden="true"><use href="#i-wa"/></svg>Kickboks için yaz
@@ -708,6 +740,27 @@ html.js [data-reveal].in{opacity:1;transform:none}
       <p class="rv-note">Örnek yorumlar gösteriliyor · yayında Google'dan otomatik güncellenecek</p>
     </div>
 
+
+    <!-- ============ INSTAGRAM ============ -->
+    <!-- Gönderiler Instagram'ın kendi gömme penceresiyle gelir. TODO (panel): gönderi listesi panelden seçilebilir yapılacak. -->
+    <div class="insta" id="instagram" data-reveal>
+      <div class="rv-head">
+        <div>
+          <p class="kicker" style="color:#ff7aa8">Instagram</p>
+          <h2 class="rv-title">Kulüpten kareler</h2>
+        </div>
+        <a class="btn btn-ig" href="https://www.instagram.com/baylikakademisporkulubu/" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-ig"/></svg>@baylikakademisporkulubu</a>
+      </div>
+      <div class="ig-strip" id="ig-strip" tabindex="0" aria-label="Instagram gönderileri, yana kaydırın">
+        <div class="ig-item"><iframe src="https://www.instagram.com/p/DeWTrz6tUKl/embed/" title="Instagram gönderisi (@baylikakademisporkulubu)" loading="lazy" allowtransparency="true" scrolling="no"></iframe></div>
+        <div class="ig-item"><iframe src="https://www.instagram.com/p/DQb_LDyjaOX/embed/" title="Instagram gönderisi (@baylikakademisporkulubu)" loading="lazy" allowtransparency="true" scrolling="no"></iframe></div>
+        <div class="ig-item"><iframe src="https://www.instagram.com/p/Dd34AcwuzGH/embed/" title="Instagram gönderisi (@gokhunswimming)" loading="lazy" allowtransparency="true" scrolling="no"></iframe></div>
+        <div class="ig-item"><iframe src="https://www.instagram.com/p/DYmfdjbtlBg/embed/" title="Instagram gönderisi (@baylikakademisporkulubu)" loading="lazy" allowtransparency="true" scrolling="no"></iframe></div>
+        <div class="ig-item"><iframe src="https://www.instagram.com/reel/DWgc799jcG1/embed/" title="Instagram gönderisi (@baylikakademisporkulubu)" loading="lazy" allowtransparency="true" scrolling="no"></iframe></div>
+      </div>
+      <div class="ig-nav"><button type="button" data-ig="-1" aria-label="Önceki gönderiler">←</button><button type="button" data-ig="1" aria-label="Sonraki gönderiler">→</button></div>
+    </div>
+
     <!-- ============ BLOG ============ -->
     <!-- TODO (DEMO): Yazılar örnektir. Panel kurulunca /api/blog'dan gelecek, her yazının kendi sayfası (/blog/slug) olacak. -->
     <div class="blog" id="blog" data-reveal>
@@ -716,19 +769,11 @@ html.js [data-reveal].in{opacity:1;transform:none}
           <p class="kicker" style="color:var(--sea-hi)">Blog</p>
           <h2 class="rv-title">Sudan ve minderden notlar</h2>
         </div>
+        <a class="link-arrow" href="blog/" style="color:var(--sea-hi)">Blog sayfası →</a>
       </div>
       <div class="posts" id="posts"></div>
+      <div class="blog-more"><a class="btn btn-ghost" href="blog/">Tüm yazıları gör →</a></div>
     </div>
-    <dialog class="post-modal" id="post-modal" aria-labelledby="pm-title">
-      <article>
-        <button class="pm-close" type="button" aria-label="Yazıyı kapat">×</button>
-        <div class="pm-cover" id="pm-cover"></div>
-        <p class="pm-meta" id="pm-meta"></p>
-        <h2 id="pm-title"></h2>
-        <div class="pm-body" id="pm-body"></div>
-        <a class="btn btn-wa" style="margin-top:22px" href="#randevu" data-close>Ön görüşme randevusu al</a>
-      </article>
-    </dialog>
 
     <div class="panel" data-reveal>
       <h2 id="final-title">Hangi branşla başlıyoruz?</h2>
@@ -812,20 +857,23 @@ html.js [data-reveal].in{opacity:1;transform:none}
 
       <h3 class="block-title">Nerede?</h3>
       <div class="grid2 grid3">
-        <div class="fcard">
+        <div class="fcard loc">
+          <iframe class="map" src="https://maps.google.com/maps?q=Malazgirt%20Mah.%20Buhara%20Cd.%20No%3A71/B%2C%2006930%20Sincan/Ankara&amp;z=15&amp;hl=tr&amp;output=embed" title="Sincan salonu haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           <h4>Sincan salonu</h4>
           <address>Malazgirt Mah. Buhara Cd. No:71/B<br>06930 Sincan/Ankara</address>
           <p style="margin-top:6px">Taekwondo · Kickboks</p>
           <div class="row"><a class="link-arrow" href="https://www.google.com/maps/search/?api=1&amp;query=Malazgirt%20Mah.%20Buhara%20Cd.%20No%3A71/B%2C%2006930%20Sincan/Ankara" target="_blank" rel="noopener">Google Haritalar ↗</a></div>
         </div>
-        <div class="fcard">
+        <div class="fcard loc">
+          <iframe class="map" src="https://maps.google.com/maps?q=Eryaman%201-2%20Metro%20%C4%B0stasyonu%2C%20Etimesgut%2C%20Ankara&amp;z=15&amp;hl=tr&amp;output=embed" title="Eryaman havuzu haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           <h4>Eryaman havuzu</h4>
           <!-- TODO: Havuzun tam adı/adresi eklenecek, harita linki ona göre güncellenecek -->
           <address>Eryaman 1-2 metro istasyonunun hemen yanı<br>Etimesgut/Ankara</address>
           <p style="margin-top:6px">Yüzme · 28°C su</p>
           <div class="row"><a class="link-arrow" href="https://www.google.com/maps/search/?api=1&amp;query=Eryaman%201-2%20Metro%20%C4%B0stasyonu%2C%20Etimesgut/Ankara" target="_blank" rel="noopener">Google Haritalar ↗</a></div>
         </div>
-        <div class="fcard">
+        <div class="fcard loc">
+          <iframe class="map" src="https://maps.google.com/maps?q=S%C3%BCvari%20Mah.%201747.%20Cd.%20No%3A17/A%2C%20Etimesgut%2C%20Ankara&amp;z=15&amp;hl=tr&amp;output=embed" title="Etimesgut Emirler şubesi haritası" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
           <h4>Etimesgut Emirler</h4>
           <!-- TODO: Instagram'dan alındı (Ekim 2026 duyurusu). Şubenin hâlâ aktif olduğu ve branşları teyit edilecek. -->
           <address>Süvari Mah. 1747. Cd. No:17/A<br>Etimesgut/Ankara</address>
@@ -850,7 +898,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
     </div>
 
     <footer class="footer">
-      <svg width="40" height="40" aria-hidden="true"><use href="#i-logo"/></svg>
+      <svg width="64" height="64" aria-hidden="true"><use href="#i-logo"/></svg>
       <p>© 2026 Baylık Akademi Spor Kulübü · Sincan &amp; Eryaman, Ankara</p>
       <p>Görünüm: <a href="?3d">3D</a> · <a href="?lite">Sade</a></p>
       <p>Demo sürüm · Bazı bilgiler örnek olarak yazılmıştır.</p>
@@ -858,15 +906,22 @@ html.js [data-reveal].in{opacity:1;transform:none}
   </section>
 </main>
 
-<a class="fab" id="fab" href="https://wa.me/905428980601?text=Merhaba%2C%20Bayl%C4%B1k%20Akademi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan yazın (yeni sekmede açılır)">
-  <svg aria-hidden="true"><use href="#i-wa"/></svg><span>Yaz</span>
-</a>
+<nav class="fabs" id="fab" aria-label="Hızlı iletişim">
+  <a class="fab fab-wa" href="https://wa.me/905428980601?text=Merhaba%2C%20Bayl%C4%B1k%20Akademi%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan yazın (yeni sekmede açılır)"><svg aria-hidden="true"><use href="#i-wa"/></svg></a>
+  <a class="fab fab-ig" href="https://www.instagram.com/baylikakademisporkulubu/" target="_blank" rel="noopener" aria-label="Instagram sayfamız (yeni sekmede açılır)"><svg aria-hidden="true"><use href="#i-ig"/></svg></a>
+  <a class="fab fab-cal" href="#randevu" aria-label="Ön görüşme randevusu al"><svg aria-hidden="true"><use href="#i-cal"/></svg></a>
+</nav>
 
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
 <script type="module">
 const root = document.documentElement;
 root.classList.add('js');
 const WA = 'https://wa.me/905428980601';
-const THREE_URL = 'https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js';
 
 /* ================================================================
    SAYFA ARAYÜZÜ (3D'den bağımsız; sade sürümde de çalışır)
@@ -904,13 +959,19 @@ function ui() {
     const navId = id === 'sualti' ? 'yuzme' : id;
     navLinks.forEach(a => a.setAttribute('aria-current', a.getAttribute('href') === '#' + navId ? 'true' : 'false'));
   }
-  fab.classList.toggle('show', s > 0.6 && s < 6.25);
+  fab.classList.toggle('show', s > 0.6);
 }
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(ui); } }, { passive: true });
 addEventListener('resize', () => { measure(); ui(); });
 measure(); ui();
 document.fonts && document.fonts.ready.then(() => { measure(); ui(); });
 new ResizeObserver(() => { measure(); }).observe(document.querySelector('main'));
+
+// Instagram şeridi: oklarla kaydır
+document.querySelectorAll('[data-ig]').forEach(b => b.addEventListener('click', () => {
+  const sr = document.getElementById('ig-strip');
+  sr.scrollBy({ left: +b.dataset.ig * Math.min(sr.clientWidth * 0.9, 700), behavior: 'smooth' });
+}));
 
 // Kaydırınca beliren kartlar
 const io = new IntersectionObserver(es => es.forEach(e => {
@@ -1010,55 +1071,17 @@ const DEMO_REVIEWS = [
   track.style.setProperty('--dur', `${list.length * 7}s`);
 })(DEMO_REVIEWS);
 
-// Blog: ÖRNEK yazılar. TODO (panel): /api/blog'dan gelecek, her yazı /blog/slug adresinde SEO uyumlu sayfa olacak.
-const DEMO_POSTS = [
-  { kat: 'Yüzme', cls: 'c-swim', icon: 'i-swim', tarih: '24 Ekim 2026', sure: '4 dk',
-    baslik: 'Su korkusu nasıl yenilir? 5 küçük adım',
-    ozet: 'Su korkusu yetişkinlerde de çocuklarda da çok yaygın. İyi haber: doğru sırayla gidildiğinde birkaç derste büyük fark oluyor.',
-    govde: `<p>Su korkusu çoğu zaman tek bir kötü deneyimden ya da hiç denememiş olmaktan gelir. Amaç korkuyu bastırmak değil, suyla güven ilişkisi kurmaktır.</p>
-      <h3>1. Sığ yerde, ayağın yere basarken başla</h3><p>İlk derslerde ayakların yere bastığı bölümde kalmak, “kontrol bende” hissini verir.</p>
-      <h3>2. Önce nefes</h3><p>Ağızdan nefes alıp suyun içine burundan yavaşça vermek, paniğin en büyük nedenini, nefessiz kalma hissini ortadan kaldırır.</p>
-      <h3>3. Suyun seni taşıdığını hisset</h3><p>Eğitmen desteğiyle sırtüstü süzülmek, vücudun suda doğal olarak kaldığını gösterir.</p>
-      <h3>4. Küçük hedefler koy</h3><p>“Bugün yüzümü suya sokacağım” gibi küçük hedefler, her dersi bir başarıya çevirir.</p>
-      <h3>5. Acele etme</h3><p>Herkesin temposu farklı. Birebir derste program tamamen size göre ilerler.</p>` },
-  { kat: 'Yüzme', cls: 'c-swim', icon: 'i-swim', tarih: '12 Ekim 2026', sure: '3 dk',
-    baslik: 'Çocuklar kaç yaşında yüzmeye başlamalı?',
-    ozet: 'Erken başlamak avantaj, ama asıl önemli olan çocuğun hazır olması. Ailelerin en çok sorduğu soruyu yanıtladık.',
-    govde: `<p>Suyla tanışma için erken yaşlar idealdir; ancak teknik yüzme eğitimine genellikle 5–6 yaş civarında başlanır. Bu yaşlarda çocuk yönergeleri takip edebilir ve koordinasyonu gelişmeye başlar.</p>
-      <h3>Hazır olduğunu nasıl anlarsınız?</h3><ul><li>Suyla oynamaktan keyif alıyorsa</li><li>Kısa yönergeleri takip edebiliyorsa</li><li>Yüzünü suya sokmaktan çok korkmuyorsa</li></ul>
-      <p>Ön görüşmede çocuğunuzu suda görüp size en doğru başlangıç planını önerebiliriz.</p>` },
-  { kat: 'Taekwondo', cls: 'c-tkd', icon: 'i-kick', tarih: '3 Ekim 2026', sure: '3 dk',
-    baslik: 'Taekwondo çocuğuma ne kazandırır?',
-    ozet: 'Tekme ve yumruktan çok daha fazlası: dikkat, saygı, sabır. Taekwondonun çocuk gelişimine katkılarını anlattık.',
-    govde: `<p>Taekwondo derslerinin büyük kısmı disiplin ve tekrar üzerine kuruludur. Çocuk, bir hareketi doğru yapana kadar sabırla çalışmayı öğrenir.</p>
-      <h3>Öne çıkan kazanımlar</h3><ul><li>Odaklanma ve dikkat süresi</li><li>Esneklik, denge ve koordinasyon</li><li>Kurallara ve arkadaşına saygı</li><li>Kendini koruma becerisi ve özgüven</li></ul>
-      <p>Kuşak sınavları ise emeğin karşılığını görmenin en somut yolu.</p>` },
-  { kat: 'Kickboks', cls: 'c-kb', icon: 'i-glove', tarih: '20 Eylül 2026', sure: '2 dk',
-    baslik: 'Yetişkinler için kickboks: ilk antrenmanda neler olur?',
-    ozet: 'Hiç dövüş sporu yapmadıysanız endişelenmeyin. İlk derste neler yaptığımızı adım adım anlattık.',
-    govde: `<p>İlk antrenman tamamen temel üzerine kuruludur: ısınma, duruş (gard), adım çalışması ve temel yumruk teknikleri.</p>
-      <h3>Yanınızda ne getirmelisiniz?</h3><ul><li>Rahat spor kıyafeti</li><li>Su</li><li>Havlu</li></ul>
-      <p>Eldiven ve bandaj konusunda ilk derslerde size yardımcı oluyoruz.</p>` }
-];
-(function blog(list) {
-  const wrap = document.getElementById('posts'), dlg = document.getElementById('post-modal');
-  wrap.innerHTML = list.map((p, i) => `<button class="post" type="button" data-i="${i}" aria-haspopup="dialog">
-      <span class="cover ${p.cls}"><svg aria-hidden="true"><use href="#${p.icon}"/></svg></span>
-      <span class="pb"><span class="meta">${esc(p.kat)} · ${esc(p.sure)}</span><h3>${esc(p.baslik)}</h3><p>${esc(p.ozet)}</p><span class="more">Devamını oku →</span></span>
-    </button>`).join('');
-  wrap.addEventListener('click', e => {
-    const b = e.target.closest('.post'); if (!b) return;
-    const p = list[+b.dataset.i];
-    const cov = document.getElementById('pm-cover');
-    cov.className = 'pm-cover cover ' + p.cls;
-    cov.innerHTML = `<svg aria-hidden="true"><use href="#${p.icon}"/></svg>`;
-    document.getElementById('pm-meta').textContent = `${p.kat} · ${p.tarih} · ${p.sure} okuma`;
-    document.getElementById('pm-title').textContent = p.baslik;
-    document.getElementById('pm-body').innerHTML = p.govde;   // içerik sabit/demo; panelden gelince sunucuda temizlenecek
-    dlg.showModal(); dlg.scrollTop = 0;
-  });
-  dlg.addEventListener('click', e => { if (e.target === dlg || e.target.closest('.pm-close') || e.target.closest('[data-close]')) dlg.close(); });
-})(DEMO_POSTS);
+// Blog: ÖRNEK yazılar demo/yazilar.js'den (blog sayfasıyla ortak). TODO (panel): yayında sunucu son yazıları HTML'e basar.
+import('./demo/yazilar.js').then(({ YAZILAR }) => {
+  const wrap = document.getElementById('posts');
+  if (!wrap || wrap.children.length) return;
+  const kod = k => k.toLowerCase().replace('ü', 'u').replace('ğ', 'g').replace('ı', 'i').replace('ş', 's');
+  const ikon = { yuzme: 'i-swim', taekwondo: 'i-kick', kickboks: 'i-glove', saglik: 'i-swim' };
+  wrap.innerHTML = YAZILAR.slice(0, 5).map((p, i) => `<a class="post${i === 0 ? ' post--big' : ''}" href="blog/?yazi=${encodeURIComponent(p.slug)}">
+      <span class="cover c-${kod(p.kategori)}"><svg aria-hidden="true"><use href="#${ikon[kod(p.kategori)]}"/></svg></span>
+      <span class="pb"><span class="meta">${esc(p.kategori)} · ${p.dakika} dk okuma</span><h3>${esc(p.baslik)}</h3><p>${esc(p.ozet)}</p><span class="more">Devamını oku →</span></span>
+    </a>`).join('');
+}).catch(() => { const b = document.getElementById('blog'); if (b) b.hidden = true; });
 
 /* ================================================================
    3D SAHNE: tek sporcu, üç dünya
@@ -1070,7 +1093,7 @@ function goLite() {
   root.classList.add('lite');
 }
 if (root.classList.contains('try3d')) {
-  import(THREE_URL).then(start).catch(err => { console.warn('3D yüklenemedi, sade sürüm', err); goLite(); });
+  import('three').then(start).catch(err => { console.warn('3D yüklenemedi, sade sürüm', err); goLite(); });
 }
 
 function start(THREE) {
@@ -1379,6 +1402,68 @@ function start(THREE) {
   }
   scene.add(flags);
 
+  // Havuzun karşı kenarında direkler: Türk bayrağı ve kulüp flaması (rüzgârda dalgalanır)
+  const direkler = new THREE.Group();
+  {
+    const doku = (ciz) => {
+      const c = document.createElement('canvas'); c.width = 600; c.height = 400;
+      const t = new THREE.CanvasTexture(c); t.colorSpace = THREE.SRGBColorSpace; t.anisotropy = 4;
+      ciz(c.getContext('2d'), () => { t.needsUpdate = true; });
+      return t;
+    };
+    // Türk bayrağı: resmi oranlar (Wikimedia SVG ölçüleri, 1200×800 → 600×400)
+    const turk = doku(g => {
+      g.fillStyle = '#e30a17'; g.fillRect(0, 0, 600, 400);
+      g.scale(0.5, 0.5);
+      g.fillStyle = '#fff'; g.beginPath(); g.arc(425, 400, 200, 0, TAU); g.fill();
+      g.fillStyle = '#e30a17'; g.beginPath(); g.arc(475, 400, 160, 0, TAU); g.fill();
+      g.fillStyle = '#fff'; g.fill(new Path2D('M583.334,400l180.901,58.779-111.804,-153.885v190.212l111.804,-153.885z'));
+    });
+    // Kulüp flaması: beyaz zemin, kırmızı şerit, rozet ve ad
+    const kulup = doku((g, bitti) => {
+      g.fillStyle = '#ffffff'; g.fillRect(0, 0, 600, 400);
+      g.fillStyle = '#d71920'; g.fillRect(0, 330, 600, 70);
+      g.fillStyle = '#0d0f13'; g.font = '900 64px "Big Shoulders Display", Arial Black, sans-serif'; g.textBaseline = 'middle';
+      g.fillText('BAYLIK', 250, 140); g.fillText('AKADEMİ', 250, 210);
+      g.fillStyle = '#ffffff'; g.font = '800 30px "Plus Jakarta Sans", Arial, sans-serif'; g.fillText('SPOR KULÜBÜ', 250, 366);
+      const svg = document.getElementById('logo-src');
+      if (svg) {
+        const k = svg.cloneNode(true); k.setAttribute('width', 200); k.setAttribute('height', 200); k.removeAttribute('style');
+        const img = new Image();
+        img.onload = () => { g.drawImage(img, 30, 70, 200, 200); bitti(); };
+        img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(k.outerHTML);
+      }
+    });
+    const dalga = (map) => new THREE.ShaderMaterial({
+      side: THREE.DoubleSide,
+      uniforms: { uTime: timeU, map: { value: map }, ...fogU },
+      vertexShader: `uniform float uTime; varying vec2 vUv; varying float vS; varying vec3 vW;
+        void main(){ vUv = uv; vec3 p = position; float u = uv.x;
+          float w = sin(u*5.5 - uTime*4.2) * 0.13 * u + sin(u*9.0 - uTime*6.0 + uv.y*2.0) * 0.03 * u;
+          p.z += w; p.y += sin(u*3.0 - uTime*3.0) * 0.03 * u;
+          vS = cos(u*5.5 - uTime*4.2);
+          vec4 wp = modelMatrix * vec4(p, 1.0); vW = wp.xyz; gl_Position = projectionMatrix * viewMatrix * wp; }`,
+      fragmentShader: `uniform sampler2D map; uniform vec3 uFogColor; uniform float uFogNear, uFogFar;
+        varying vec2 vUv; varying float vS; varying vec3 vW;
+        void main(){ vec3 c = texture2D(map, gl_FrontFacing ? vUv : vec2(1.0 - vUv.x, vUv.y)).rgb;
+          c *= 0.8 + 0.2 * vS;
+          float f = smoothstep(uFogNear, uFogFar, length(cameraPosition - vW));
+          gl_FragColor = vec4(mix(c, uFogColor, f), 1.0); }`
+    });
+    const direkMat = new THREE.MeshStandardMaterial({ color: '#d9dde1', metalness: 0.6, roughness: 0.35 });
+    [[-6.6, turk], [-4.2, kulup]].forEach(([x, map]) => {
+      const direk = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 5.4, 10), direkMat);
+      direk.position.set(x, DECK + 2.7, PZ0 - 1.5);
+      const tepe = new THREE.Mesh(new THREE.SphereGeometry(0.07, 12, 8), new THREE.MeshStandardMaterial({ color: '#e4b84a', metalness: 0.8, roughness: 0.3 }));
+      tepe.position.set(x, DECK + 5.45, PZ0 - 1.5);
+      const bez = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 1.2, 28, 10).translate(0.9, 0, 0), dalga(map));
+      bez.position.set(x + 0.04, DECK + 4.65, PZ0 - 1.5);
+      direkler.add(direk, tepe, bez);
+    });
+  }
+  scene.add(direkler);
+
+
   // ------------------------------------------------------------
   // SUALTI: ışık huzmeleri, kabarcıklar, sıçrama damlaları
   // ------------------------------------------------------------
@@ -1552,64 +1637,126 @@ function start(THREE) {
   // SPORCU: low-poly, eklemli figür (tek model, üç branş)
   // ------------------------------------------------------------
   // Her vücut parçasının kendi malzemesi var; branşa göre kıyafet renkleri (mayo → dobok → şort/eldiven) karışıyor.
-  const M = n => new THREE.MeshStandardMaterial({ roughness: n === 'skin' ? 0.62 : 0.75, metalness: 0 });
+  const M = () => new THREE.MeshStandardMaterial({ roughness: 0.78, metalness: 0 });
   const mat = { torso: M(), upper: M(), fore: M(), pelvis: M(), thigh: M(), shin: M(), belt: M() };
-  const skinMat = M('skin'); skinMat.color.set('#c68a64');
-  const hairMat = new THREE.MeshStandardMaterial({ color: '#241811', roughness: 0.9 });
-  const redMat = new THREE.MeshStandardMaterial({ color: '#d71920', roughness: 0.45 });
-  const darkMat = new THREE.MeshStandardMaterial({ color: '#121418', roughness: 0.3, metalness: 0.2 });
-  const SKIN = '#c68a64', WHITE = '#f4f3ef', RED = '#c9151b', BLACK = '#16171b';
+  // Cilt: hafif parlak (sheen) ve suda ıslak görünüm (clearcoat) için fiziksel malzeme
+  const skinMat = new THREE.MeshPhysicalMaterial({ color: '#c78b66', roughness: 0.52, sheen: 0.35, sheenColor: new THREE.Color('#ffb08c'), sheenRoughness: 0.6, clearcoat: 0, clearcoatRoughness: 0.25 });
+  const hairMat = new THREE.MeshStandardMaterial({ color: '#21160f', roughness: 0.85 });
+  const redMat = new THREE.MeshStandardMaterial({ color: '#d71920', roughness: 0.38 });
+  const darkMat = new THREE.MeshStandardMaterial({ color: '#121418', roughness: 0.25, metalness: 0.3 });
+  const eyeW = new THREE.MeshStandardMaterial({ color: '#f3efe9', roughness: 0.3 });
+  const lipMat = new THREE.MeshStandardMaterial({ color: '#9c5a4a', roughness: 0.6 });
+  const SKIN = '#c78b66', WHITE = '#f4f3ef', RED = '#c9151b', BLACK = '#16171b';
   const OUTFIT = {                       // mayo · dobok · kickboks
     torso: [SKIN, WHITE, BLACK], upper: [SKIN, WHITE, SKIN], fore: [SKIN, WHITE, SKIN],
     pelvis: [RED, WHITE, RED], thigh: [SKIN, WHITE, RED], shin: [SKIN, WHITE, SKIN], belt: [RED, BLACK, BLACK]
   };
   for (const k in OUTFIT) OUTFIT[k] = OUTFIT[k].map(c => new THREE.Color(c));
   const lathe = (pts, seg, sx, sz) => new THREE.LatheGeometry(pts.map(([r, y]) => new THREE.Vector2(r, y)), seg).scale(sx, 1, sz);
-  const capsule = (r, l) => new THREE.CapsuleGeometry(r, l, 4, 12);
+  const capsule = (r, l) => new THREE.CapsuleGeometry(r, l, 6, 16);
+  const ball = (r, m, x, y, z, sx = 1, sy = 1, sz = 1, parent) => {
+    const o = new THREE.Mesh(new THREE.SphereGeometry(r, 18, 12), m); o.position.set(x, y, z); o.scale.set(sx, sy, sz); parent.add(o); return o;
+  };
+
+  // Kulüp logosu (bone ve dobok üzerinde): sayfadaki rozet SVG'sinden doku
+  const logoTex = (() => {
+    const c = document.createElement('canvas'); c.width = c.height = 256;
+    const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+    const svg = document.getElementById('logo-src');
+    if (svg) {
+      const img = new Image();
+      img.onload = () => { c.getContext('2d').drawImage(img, 0, 0, 256, 256); tex.needsUpdate = true; };
+      const k = svg.cloneNode(true);
+      k.setAttribute('width', 256); k.setAttribute('height', 256); k.removeAttribute('style');
+      img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(k.outerHTML);
+    }
+    return tex;
+  })();
+  const logoMat = new THREE.MeshStandardMaterial({ map: logoTex, transparent: true, roughness: 0.4, polygonOffset: true, polygonOffsetFactor: -2 });
+
   const fig = new THREE.Group();          // dünya konumu + yön (yaw)
   const hips = new THREE.Group();         // eğim (pitch)
   fig.add(hips); scene.add(fig);
   fig.rotation.y = Math.PI / 2;           // sporcu +x yönüne bakıyor
-  const pelvis = new THREE.Mesh(lathe([[0.001, -0.11], [0.1, -0.11], [0.145, -0.05], [0.152, 0.02], [0.14, 0.08], [0.001, 0.08]], 16, 1.12, 0.78), mat.pelvis);
+
+  // Kalça ve bel
+  const pelvis = new THREE.Mesh(lathe([[0.001, -0.11], [0.1, -0.11], [0.145, -0.05], [0.152, 0.02], [0.14, 0.08], [0.001, 0.08]], 20, 1.12, 0.8), mat.pelvis);
   hips.add(pelvis);
-  const band = new THREE.Mesh(new THREE.CylinderGeometry(0.152, 0.152, 0.05, 18), mat.belt); band.position.y = 0.06; band.scale.z = 0.8; hips.add(band);
+  ball(0.085, mat.pelvis, 0.06, -0.05, -0.065, 1, 0.95, 0.85, hips); ball(0.085, mat.pelvis, -0.06, -0.05, -0.065, 1, 0.95, 0.85, hips);   // kalça kasları
+  const band = new THREE.Mesh(new THREE.CylinderGeometry(0.152, 0.152, 0.05, 24), mat.belt); band.position.y = 0.06; band.scale.z = 0.82; hips.add(band);
+  // Gövde: bel inceliyor, göğüs ve sırt genişliyor
   const torsoP = new THREE.Group(); torsoP.position.y = 0.06; hips.add(torsoP);
-  const torso = new THREE.Mesh(lathe([[0.001, -0.02], [0.135, -0.02], [0.14, 0.07], [0.136, 0.17], [0.152, 0.29], [0.176, 0.41], [0.186, 0.49], [0.168, 0.56], [0.1, 0.61], [0.045, 0.63], [0.001, 0.632]], 18, 1.16, 0.68), mat.torso);
+  const torso = new THREE.Mesh(lathe([[0.001, -0.02], [0.133, -0.02], [0.136, 0.07], [0.13, 0.16], [0.148, 0.28], [0.174, 0.4], [0.186, 0.48], [0.17, 0.555], [0.11, 0.605], [0.05, 0.628], [0.001, 0.632]], 24, 1.18, 0.66), mat.torso);
   torsoP.add(torso);
+  ball(0.085, mat.torso, 0.072, 0.44, 0.075, 1.05, 0.72, 0.5, torsoP); ball(0.085, mat.torso, -0.072, 0.44, 0.075, 1.05, 0.72, 0.5, torsoP); // göğüs
+  ball(0.075, mat.torso, 0.075, 0.47, -0.07, 1, 0.9, 0.45, torsoP); ball(0.075, mat.torso, -0.075, 0.47, -0.07, 1, 0.9, 0.45, torsoP);    // kürek kemikleri
+  ball(0.09, mat.torso, 0, 0.18, 0.045, 1.05, 1.25, 0.55, torsoP);                                                                    // karın
+  const chestLogo = new THREE.Mesh(new THREE.CircleGeometry(0.045, 24), logoMat); chestLogo.position.set(-0.085, 0.47, 0.125); chestLogo.rotation.y = -0.35; torsoP.add(chestLogo);
+
+  // Baş: kafatası, çene, yüz detayları
   const headP = new THREE.Group(); headP.position.y = 0.62; torsoP.add(headP);
-  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.056, 0.12, 12), skinMat); neck.position.y = 0.04; headP.add(neck);
-  const head = new THREE.Mesh(new THREE.SphereGeometry(0.104, 22, 16), skinMat); head.position.set(0, 0.18, 0.005); head.scale.set(0.86, 1.1, 1); headP.add(head);
-  const jaw = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 10), skinMat); jaw.position.set(0, 0.12, 0.03); jaw.scale.set(1, 0.8, 1); headP.add(jaw);
-  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.016, 0.045, 8).rotateX(Math.PI / 2), skinMat); nose.position.set(0, 0.17, 0.103); headP.add(nose);
-  [-1, 1].forEach(s => { const ear = new THREE.Mesh(new THREE.SphereGeometry(0.022, 8, 6), skinMat); ear.position.set(0.09 * s, 0.175, 0); ear.scale.set(0.5, 1, 0.8); headP.add(ear); });
-  const hair = new THREE.Mesh(new THREE.SphereGeometry(0.11, 20, 12, 0, TAU, 0, Math.PI * 0.52), hairMat);
-  hair.position.set(0, 0.19, -0.008); hair.scale.set(0.9, 1.08, 1.04); hair.rotation.x = -0.35; headP.add(hair);
-  const cap = new THREE.Mesh(new THREE.SphereGeometry(0.114, 20, 12, 0, TAU, 0, Math.PI * 0.56), redMat);
-  cap.position.set(0, 0.19, -0.004); cap.scale.set(0.9, 1.08, 1.04); cap.rotation.x = -0.3; headP.add(cap);
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.047, 0.058, 0.13, 16), skinMat); neck.position.y = 0.04; headP.add(neck);
+  const trap = new THREE.Mesh(new THREE.SphereGeometry(0.1, 18, 10, 0, TAU, 0, Math.PI / 2), mat.torso); trap.position.y = -0.02; trap.scale.set(1.25, 0.45, 0.7); headP.add(trap);
+  const head = ball(0.102, skinMat, 0, 0.185, 0.0, 0.86, 1.08, 1.0, headP);
+  const jaw = ball(0.068, skinMat, 0, 0.125, 0.032, 1, 0.78, 1, headP);
+  const nose = new THREE.Mesh(new THREE.ConeGeometry(0.016, 0.042, 10).rotateX(Math.PI / 2), skinMat); nose.position.set(0, 0.17, 0.103); headP.add(nose);
+  [-1, 1].forEach(s => {
+    ball(0.021, skinMat, 0.088 * s, 0.178, -0.004, 0.45, 1, 0.8, headP);                     // kulak
+    ball(0.013, eyeW, 0.033 * s, 0.195, 0.087, 1.3, 0.8, 0.6, headP);                       // göz akı
+    ball(0.0075, darkMat, 0.033 * s, 0.195, 0.094, 1, 1, 0.6, headP);                        // göz bebeği
+    const brow = new THREE.Mesh(new THREE.BoxGeometry(0.03, 0.007, 0.01), hairMat);          // kaş
+    brow.position.set(0.034 * s, 0.215, 0.092); brow.rotation.z = -0.12 * s; headP.add(brow);
+  });
+  const lips = ball(0.02, lipMat, 0, 0.128, 0.093, 1.25, 0.32, 0.5, headP);
+  const hair = new THREE.Mesh(new THREE.SphereGeometry(0.108, 24, 14, 0, TAU, 0, Math.PI * 0.5), hairMat);
+  hair.position.set(0, 0.195, -0.01); hair.scale.set(0.9, 1.05, 1.06); hair.rotation.x = -0.32; headP.add(hair);
+  // Bone: kırmızı, iki yanında kulüp logosu
+  const cap = new THREE.Group(); headP.add(cap);
+  const capShell = new THREE.Mesh(new THREE.SphereGeometry(0.113, 24, 14, 0, TAU, 0, Math.PI * 0.56), redMat);
+  capShell.position.set(0, 0.19, -0.004); capShell.scale.set(0.9, 1.08, 1.04); capShell.rotation.x = -0.3; cap.add(capShell);
+  [-1, 1].forEach(s => {
+    const l = new THREE.Mesh(new THREE.CircleGeometry(0.042, 24), logoMat);
+    l.position.set(0.097 * s, 0.225, -0.025); l.rotation.set(0, s * Math.PI / 2, s * -0.2); cap.add(l);
+  });
   const goggles = new THREE.Group();
-  goggles.add(new THREE.Mesh(new THREE.TorusGeometry(0.094, 0.007, 6, 28).rotateX(Math.PI / 2), darkMat));
-  [-1, 1].forEach(s => { const g = new THREE.Mesh(new THREE.SphereGeometry(0.024, 12, 8), darkMat); g.position.set(0.034 * s, 0, 0.088); g.scale.set(1.2, 0.8, 0.6); goggles.add(g); });
-  goggles.position.y = 0.19; goggles.scale.set(0.9, 1, 1.04); headP.add(goggles);
+  goggles.add(new THREE.Mesh(new THREE.TorusGeometry(0.094, 0.007, 8, 32).rotateX(Math.PI / 2), darkMat));
+  [-1, 1].forEach(s => { const g = new THREE.Mesh(new THREE.SphereGeometry(0.025, 14, 10), darkMat); g.position.set(0.034 * s, 0, 0.088); g.scale.set(1.25, 0.82, 0.6); goggles.add(g); });
+  goggles.position.y = 0.195; goggles.scale.set(0.9, 1, 1.05); headP.add(goggles);
+
+  // Kollar: omuz, pazı, ön kol, parmaklı el
+  function hand(parent) {
+    const h = new THREE.Group(); h.position.y = -0.27; parent.add(h);
+    const palm = new THREE.Mesh(capsule(0.03, 0.035), skinMat); palm.position.y = -0.025; palm.scale.set(1.15, 1, 0.55); h.add(palm);
+    const fingers = new THREE.Mesh(capsule(0.026, 0.045), skinMat); fingers.position.set(0, -0.085, 0.006); fingers.scale.set(1.2, 1, 0.45); fingers.rotation.x = -0.25; h.add(fingers);
+    const thumb = new THREE.Mesh(capsule(0.011, 0.035), skinMat); thumb.position.set(0, -0.035, 0.03); thumb.rotation.x = -0.7; h.add(thumb);
+    return h;
+  }
   function arm(side) {
     const sh = new THREE.Group(); sh.position.set(0.2 * side, 0.52, 0); torsoP.add(sh);
-    const delt = new THREE.Mesh(new THREE.SphereGeometry(0.068, 14, 10), mat.upper); delt.position.y = -0.02; sh.add(delt);
-    const up = new THREE.Mesh(capsule(0.05, 0.2), mat.upper); up.position.y = -0.14; sh.add(up);
+    ball(0.07, mat.upper, 0, -0.02, 0, 1, 1, 1, sh);                                          // omuz (deltoid)
+    const up = new THREE.Mesh(capsule(0.047, 0.2), mat.upper); up.position.y = -0.14; sh.add(up);
+    ball(0.045, mat.upper, 0, -0.13, 0.016, 1, 1.7, 1, sh);                                   // pazı
     const el = new THREE.Group(); el.position.y = -0.29; sh.add(el);
-    const fo = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.034, 0.24, 12), mat.fore); fo.position.y = -0.12; el.add(fo);
-    const elb = new THREE.Mesh(new THREE.SphereGeometry(0.046, 12, 8), mat.fore); el.add(elb);
-    const hand = new THREE.Mesh(capsule(0.032, 0.05), skinMat); hand.position.y = -0.29; hand.scale.set(1.05, 1, 0.62); el.add(hand);
-    const glove = new THREE.Mesh(new THREE.SphereGeometry(0.075, 16, 12), redMat); glove.position.y = -0.3; glove.scale.set(0.9, 1.1, 1); el.add(glove);
-    return { sh, el, hand, glove };
+    ball(0.045, mat.fore, 0, 0, 0, 1, 1, 1, el);
+    const fo = new THREE.Mesh(new THREE.CylinderGeometry(0.046, 0.031, 0.24, 16), mat.fore); fo.position.y = -0.12; el.add(fo);
+    ball(0.044, mat.fore, 0, -0.06, 0.006, 1, 1.6, 0.95, el);                                 // ön kol kası
+    const handG = hand(el);
+    const glove = new THREE.Mesh(new THREE.SphereGeometry(0.075, 20, 14), redMat); glove.position.y = -0.3; glove.scale.set(0.9, 1.1, 1); el.add(glove);
+    return { sh, el, hand: handG, glove };
   }
+  // Bacaklar: ön bacak kası, diz, baldır, ayak
   function leg(side) {
     const hp = new THREE.Group(); hp.position.set(0.09 * side, -0.04, 0); hips.add(hp);
-    const th = new THREE.Mesh(new THREE.CylinderGeometry(0.084, 0.058, 0.4, 14), mat.thigh); th.position.y = -0.2; hp.add(th);
-    const hipBall = new THREE.Mesh(new THREE.SphereGeometry(0.084, 14, 10), mat.thigh); hp.add(hipBall);
+    const th = new THREE.Mesh(new THREE.CylinderGeometry(0.086, 0.056, 0.4, 18), mat.thigh); th.position.y = -0.2; hp.add(th);
+    ball(0.086, mat.thigh, 0, 0, 0, 1, 1, 1, hp);
+    ball(0.062, mat.thigh, 0, -0.18, 0.026, 1, 2.2, 0.95, hp);                                // ön bacak kası
     const kn = new THREE.Group(); kn.position.y = -0.42; hp.add(kn);
-    const knee = new THREE.Mesh(new THREE.SphereGeometry(0.058, 12, 8), mat.shin); kn.add(knee);
-    const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.058, 0.036, 0.4, 14), mat.shin); sh.position.y = -0.2; kn.add(sh);
-    const calf = new THREE.Mesh(new THREE.SphereGeometry(0.05, 12, 8), mat.shin); calf.position.set(0, -0.12, -0.016); calf.scale.set(1, 1.6, 1); kn.add(calf);
-    const ft = new THREE.Mesh(capsule(0.036, 0.16).rotateX(Math.PI / 2), skinMat); ft.position.set(0, -0.43, 0.05); ft.scale.set(1.15, 0.85, 1); kn.add(ft);
+    ball(0.057, mat.shin, 0, 0, 0.004, 1, 1, 1, kn);
+    const sh = new THREE.Mesh(new THREE.CylinderGeometry(0.056, 0.034, 0.4, 16), mat.shin); sh.position.y = -0.2; kn.add(sh);
+    ball(0.052, mat.shin, 0, -0.12, -0.02, 1, 1.7, 1, kn);                                    // baldır
+    const foot = new THREE.Group(); foot.position.set(0, -0.42, 0); kn.add(foot);
+    const ft = new THREE.Mesh(capsule(0.036, 0.15).rotateX(Math.PI / 2), skinMat); ft.position.set(0, -0.012, 0.055); ft.scale.set(1.15, 0.75, 1); foot.add(ft);
+    ball(0.036, skinMat, 0, -0.005, -0.015, 1, 1, 1, foot);                                   // topuk
     return { hp, kn };
   }
   const L = arm(1), R = arm(-1), LL = leg(1), RL = leg(-1);
@@ -1619,6 +1766,9 @@ function start(THREE) {
       const [a, b, c] = OUTFIT[k], col = mat[k].color;
       col.setRGB((a.r * wSwim + b.r * wTk + c.r * wKb) / t, (a.g * wSwim + b.g * wTk + c.g * wKb) / t, (a.b * wSwim + b.b * wTk + c.b * wKb) / t);
     }
+    // Sudan çıkınca cilt kurur; dobokun göğsünde logo
+    skinMat.clearcoat = 0.05 + 0.85 * wSwim / t;   // 0'a inmesin: shader yeniden derlenmesin
+    chestLogo.visible = wTk / t > 0.5;
   }
 
   // Poz dizisi: 0 gövdeX 1 gövdeY 2 gövdeZ 3 başX 4 omuzLX 5 omuzLZ 6 dirsekL 7 omuzRX 8 omuzRZ 9 dirsekR
@@ -1677,6 +1827,144 @@ function start(THREE) {
     R.sh.rotation.set(p[7], 0, p[8]); R.el.rotation.x = p[9];
     LL.hp.rotation.set(p[10], 0, p[11]); LL.kn.rotation.x = p[12];
     RL.hp.rotation.set(p[13], 0, p[14]); RL.kn.rotation.x = p[15];
+  }
+
+  // ------------------------------------------------------------
+  // GERÇEKÇİ SPORCU (Mixamo modeli, public/models/sporcu.glb)
+  // Yüklenene kadar ve yüklenemezse yukarıdaki çizilmiş figür görünür.
+  // ------------------------------------------------------------
+  let athlete = null;
+  // TODO: Fab'dan alınacak gerçekçi yüzücü modeli gelince açılacak (Mixamo karakteri yamalı göründüğü için kapalı)
+  const GERCEKCI_MODEL = /[?&]model\b/.test(location.search);
+  if (GERCEKCI_MODEL && (tier === 0 || forced)) {
+    import('three/addons/loaders/GLTFLoader.js').then(({ GLTFLoader }) => {
+      const loader = new GLTFLoader();
+      const dene = (yollar) => loader.load(yollar[0], kur, undefined, () => yollar.length > 1 ? dene(yollar.slice(1)) : console.warn('Sporcu modeli yüklenemedi'));
+      dene(['/models/sporcu.glb']);
+    }).catch(e => console.warn(e));
+  }
+  function kur(gltf) {
+    const root = gltf.scene;
+    const kemik = ad => root.getObjectByName(ad) || root.getObjectByName(ad.replace(':', ''));
+    const parca = ad => { let m = null; root.traverse(o => { if (o.isMesh && o.name.includes(ad)) m = o; }); return m; };
+    const shirt = parca('Shirt'), shorts = parca('Shorts'), shoes = parca('Sneakers'), hairM = parca('Hair'), body = parca('Body');
+    root.traverse(o => { if (o.isMesh) { o.frustumCulled = false; o.castShadow = false; } });
+    // Tişört ve şortun rengi branşa göre değişir: dokuyu kaldır, kumaş kıvrımları (normal map) kalsın
+    const kumas = m => { const k = m.material.clone(); k.map = null; k.roughness = 0.8; m.material = k; return k; };
+    const shirtMat = shirt && kumas(shirt), shortsMat = shorts && kumas(shorts);
+    if (body) { body.material = body.material.clone(); }
+
+    // Kalça kemiği sporcu grubunun pivotuna otursun
+    root.updateMatrixWorld(true);
+    const hipsB = kemik('mixamorig:Hips');
+    const hp = new THREE.Vector3(); hipsB.getWorldPosition(hp);
+    const holder = new THREE.Group(); holder.add(root); root.position.y = -hp.y;
+    hips.add(holder);
+    hips.children.forEach(c => { if (c !== holder) c.visible = false; });
+
+    // Kemiklere takılan aksesuarlar (kemik ölçeği 0.01: boyutlar metreye çevrilir)
+    const takili = (kemikAdi, obj, x, y, z) => {
+      const b = kemik(kemikAdi); if (!b) return obj;
+      const ws = new THREE.Vector3(); b.getWorldScale(ws);
+      const g = new THREE.Group(); g.scale.setScalar(1 / ws.x); g.add(obj); obj.position.set(x, y, z); b.add(g); return obj;
+    };
+    // Bone: başa oturan kırmızı kabuk + iki yanda logo; gözlük yalnız camlar ve ince lastik
+    const bone = new THREE.Group();
+    const kabuk = new THREE.Mesh(new THREE.SphereGeometry(0.108, 28, 16, 0, TAU, 0, Math.PI * 0.6), redMat);
+    kabuk.scale.set(0.9, 1.0, 1.06); kabuk.rotation.x = -0.18; bone.add(kabuk);
+    [-1, 1].forEach(s => { const l = new THREE.Mesh(new THREE.CircleGeometry(0.036, 24), logoMat); l.position.set(0.098 * s, 0.03, -0.012); l.rotation.set(0, s * Math.PI / 2, 0); bone.add(l); });
+    const gozluk = new THREE.Group();
+    const lastik = new THREE.Mesh(new THREE.TorusGeometry(0.1, 0.0035, 6, 40, Math.PI * 1.2).rotateX(Math.PI / 2).rotateY(-Math.PI * 0.1 - Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#f1f1f1', roughness: 0.5 }));
+    gozluk.add(lastik);
+    [-1, 1].forEach(s => { const g = new THREE.Mesh(new THREE.SphereGeometry(0.02, 16, 10), darkMat); g.position.set(0.031 * s, 0, 0.09); g.scale.set(1.3, 0.85, 0.55); gozluk.add(g); });
+    takili('mixamorig:Head', bone, 0, 0.1, -0.012);
+    takili('mixamorig:Head', gozluk, 0, 0.082, -0.004);
+    const kusak = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.022, 8, 32).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#141414', roughness: 0.7 }));
+    kusak.scale.set(1.05, 1, 0.82);
+    takili('mixamorig:Hips', kusak, 0, 0.06, 0.005);
+    const eldivenler = ['mixamorig:LeftHand', 'mixamorig:RightHand'].map(b => {
+      const e = new THREE.Mesh(new THREE.SphereGeometry(0.068, 20, 14), redMat); e.scale.set(0.95, 1.15, 1.05);
+      return takili(b, e, 0, 0.07, 0.01);
+    });
+    // Ayakkabı yerine çıplak ayak: ayak kemiğinden parmak kemiğine uzanan ayak + topuk
+    if (shoes) shoes.visible = false;
+    const ayakMat = new THREE.MeshStandardMaterial({ color: '#b07656', roughness: 0.55 });
+    const ayakUclari = [];
+    ['Left', 'Right'].forEach(t => {
+      const ayak = kemik(`mixamorig:${t}Foot`), parmak = kemik(`mixamorig:${t}ToeBase`);
+      if (!ayak || !parmak) return;
+      const ws = new THREE.Vector3(); ayak.getWorldScale(ws);
+      const yon = parmak.position.clone().multiplyScalar(ws.x);       // ayak → parmak (metre)
+      const boy = yon.length();
+      const g = new THREE.Group();
+      const taban = new THREE.Mesh(new THREE.CapsuleGeometry(0.04, boy * 1.15, 6, 14), ayakMat);
+      taban.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), yon.clone().normalize());
+      taban.position.copy(yon).multiplyScalar(0.62); taban.scale.set(1.1, 1, 0.72);
+      const topuk = new THREE.Mesh(new THREE.SphereGeometry(0.045, 16, 10), ayakMat);
+      g.add(taban, topuk);
+      takili(`mixamorig:${t}Foot`, g, 0, 0, 0);
+      ayakUclari.push(ayak, parmak);
+    });
+
+    // Animasyonlar: hepsi aynı anda çalışır, ağırlıkları sahneye göre değişir
+    const mixer = new THREE.AnimationMixer(root);
+    const act = {};
+    for (const clip of gltf.animations) {
+      const a = mixer.clipAction(clip); a.play(); a.setEffectiveWeight(0); act[clip.name] = a;
+    }
+    // Balıklama: takla animasyonu yerine yüzme animasyonunun "kollar ileride, gövde düz" anı kullanılır.
+    // O an, elin kalçadan en ileride olduğu kare olarak otomatik bulunur.
+    let suzulme = 0;
+    {
+      const el = kemik('mixamorig:RightHand'), v1 = new THREE.Vector3(), v2 = new THREE.Vector3();
+      let enIyi = -Infinity;
+      for (const k in act) act[k].setEffectiveWeight(k === 'swim' ? 1 : 0);
+      const sure = act.swim.getClip().duration;
+      for (let t = 0; t < sure; t += 0.05) {
+        act.swim.time = t; mixer.update(0); root.updateMatrixWorld(true);
+        el.getWorldPosition(v1); hipsB.getWorldPosition(v2);
+        const ileri = holder.worldToLocal(v1.clone()).z - holder.worldToLocal(v2.clone()).z;
+        if (ileri > enIyi) { enIyi = ileri; suzulme = t; }
+      }
+    }
+    const renk = { kirmizi: new THREE.Color('#c9151b'), beyaz: new THREE.Color('#f2f1ec'), siyah: new THREE.Color('#17181c'), lacivert: new THREE.Color('#0d2a4a') };
+    const ayakY = new THREE.Vector3();
+
+    window.__sporcu = { root, hipsB, holder };
+    athlete = {
+      update(o) {
+        const { dv, standW, tkW, kbW, dt, s } = o;
+        const wIdle = 1 - sm(0.1, 0.2, dv);
+        const wSwim = (1 - wIdle) * (1 - standW);
+        const w = { idle: wIdle, swim: wSwim, kick: tkW * 0.85, fight: tkW * 0.15 + (s > 6 ? kbW * 0.6 : 0), bag: kbW * (s > 6 ? 0.4 : 1) };
+        for (const k in act) act[k].setEffectiveWeight(w[k] || 0);
+        // Uçuş ve suya giriş: süzülme karesinde dur; suya girdikten sonra kulaç başlar
+        if (dv < 0.62) { act.swim.timeScale = 0; act.swim.time = suzulme; }
+        else act.swim.timeScale = s > 2.1 ? 0.75 : 1;
+        mixer.update(dt);
+        // Ayaklar zemine otursun: blokta blok üstüne, minder/ringde minderin üstüne
+        const kilit = Math.max(wIdle, standW);
+        holder.position.y = 0;
+        if (kilit > 0.01 && ayakUclari.length) {
+          fig.updateMatrixWorld(true);
+          let enAlt = Infinity;
+          for (const b of ayakUclari) { b.getWorldPosition(ayakY); enAlt = Math.min(enAlt, ayakY.y); }
+          const zemin = (standW > 0.5 ? DECK : BLOCK_TOP) + 0.035;
+          holder.position.y = (zemin - enAlt) * kilit;
+        }
+        // Su: lacivert yüzme tişörtü + kırmızı mayo + bone/gözlük; dojo: beyaz kıyafet + kuşak; ring: siyah atlet, kırmızı şort, eldiven
+        // (Modelde tişörtün altında gövde yok; tişört hep görünür, yalnız rengi değişir)
+        const suda = wIdle + wSwim > 0.5;
+        if (hairM) hairM.visible = !suda;
+        bone.visible = gozluk.visible = suda;
+        kusak.visible = tkW > 0.5;
+        eldivenler.forEach(e => { e.visible = kbW > 0.3; });
+        if (shortsMat) shortsMat.color.copy(renk.kirmizi).lerp(renk.beyaz, tkW);
+        if (shirtMat) shirtMat.color.copy(renk.lacivert).lerp(renk.beyaz, tkW).lerp(renk.siyah, kbW);
+        if (body) body.material.roughness = suda ? 0.35 : 0.6;
+        return wSwim;
+      }
+    };
   }
 
   // ------------------------------------------------------------
@@ -1802,6 +2090,12 @@ function start(THREE) {
     applyPose(P);
     fig.position.set(x, y + P[16], 0);
     hips.rotation.x = pitch;
+    if (athlete) {
+      // Gerçekçi modelde yüzme animasyonu zaten yatay: yalnız dalış/çıkış sapması uygulanır
+      const wSwimM = athlete.update({ s, dv, standW, tkW, kbW, dt });
+      hips.rotation.x = pitch - Math.PI / 2 * wSwimM;
+      fig.position.y = y;
+    }
 
     const swimLook = swimW + blockW;
     dress(swimLook, tkW, kbW);
@@ -1834,6 +2128,7 @@ function start(THREE) {
     walls.visible = s < 3.7;
     ropes.visible = blocks.visible = s < 3.62;
     flags.visible = s < 3.4;
+    direkler.visible = s < 3.5;
 
     // --- sualtı efektleri ---
     const ro = rayK(s);

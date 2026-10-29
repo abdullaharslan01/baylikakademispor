@@ -1,6 +1,33 @@
 services:
-  site:
-    build: .
-    ports:
-      - "8080:80"
+  web:
+    image: caddy:2.10-alpine
     restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+      CADDY_TLS: ${CADDY_TLS:-}
+      PANEL_YOLU: ${PANEL_YOLU:-/panel-tanimsiz}
+    volumes:
+      # Klasör olarak bağlı: dosya değişince (rsync/git) konteyner yeni hâlini görür, caddy reload yeter
+      - ./docker/caddy:/etc/caddy:ro
+      - ./dist:/srv/www:ro
+      - ./data:/srv/data:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - php
+
+  php:
+    build: ./docker/php
+    restart: unless-stopped
+    environment:
+      PANEL_YOLU: ${PANEL_YOLU:-/panel-tanimsiz}
+    volumes:
+      - ./dist:/srv/www:ro
+      - ./data:/srv/data
+
+volumes:
+  caddy_data:
+  caddy_config:

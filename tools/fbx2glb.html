@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>FBX → GLB dönüştürücü</title>
+<style>body{font:14px/1.5 monospace;padding:16px;background:#111;color:#ddd}button{font:inherit;padding:8px 14px}</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<p>Mixamo FBX dosyalarını (assets/mixamo/) tek bir GLB'ye çevirir: dokular küçültülür, animasyonlar adlandırılır.
+Kaydetmek için sayfa <code>python3 tools/kaydet.py</code> ile açılmalı.</p>
+<button id="donustur">Dönüştür ve kaydet</button>
+<pre id="log"></pre>
+<script type="module">
+import * as THREE from 'three';
+import { FBXLoader } from 'three/addons/loaders/FBXLoader.js';
+import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+
+const log = (...a) => { document.getElementById('log').textContent += a.join(' ') + '\n'; };
+const KARAKTER = '../assets/mixamo/bryce_idle.fbx';
+const KLIPLER = { idle: null, dive: 'dive.fbx', swim: 'swimming.fbx', kick: 'roundhouse_kick.fbx', fight: 'fight_idle.fbx', bag: 'punching_bag.fbx' };
+const MAKS_DOKU = 1024;
+
+const yukle = url => new Promise((ok, hata) => new FBXLoader().load(url, ok, undefined, hata));
+
+/** Dokuyu en fazla MAKS_DOKU piksele indirip JPEG (saydamsa PNG) olarak dışa aktarılacak hale getirir */
+function kucult(tex, saydam) {
+  if (!tex || !tex.image) return tex;
+  const img = tex.image, w = img.width, h = img.height, k = Math.min(1, MAKS_DOKU / Math.max(w, h));
+  const c = document.createElement('canvas'); c.width = Math.round(w * k); c.height = Math.round(h * k);
+  c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+  const yeni = new THREE.CanvasTexture(c);
+  yeni.colorSpace = tex.colorSpace; yeni.flipY = tex.flipY; yeni.wrapS = tex.wrapS; yeni.wrapT = tex.wrapT;
+  yeni.userData.mimeType = saydam ? 'image/png' : 'image/jpeg';
+  return yeni;
+}
+
+async function donustur() {
+  log('Karakter yükleniyor…');
+  const model = await yukle(KARAKTER);
+  const klipler = [];
+  model.animations[0].name = 'idle';
+  klipler.push(model.animations[0]);
+  for (const [ad, dosya] of Object.entries(KLIPLER)) {
+    if (!dosya) continue;
+    const f = await yukle('../assets/mixamo/' + dosya);
+    const k = f.animations[0]; k.name = ad; klipler.push(k);
+    log(`klip ${ad}: ${k.duration.toFixed(2)} sn, ${k.tracks.length} iz`);
+  }
+  // FBX dokuları arka planda yüklenir: küçültmeden önce hepsinin inmesini bekle
+  const bekle = [];
+  model.traverse(o => { if (!o.isMesh) return; (Array.isArray(o.material) ? o.material : [o.material]).forEach(m => {
+    for (const t of [m.map, m.normalMap]) {
+      const img = t && t.image;
+      if (img && img.tagName === 'IMG' && !img.complete) bekle.push(new Promise(r => { img.onload = r; img.onerror = r; }));
+    }
+  }); });
+  await Promise.all(bekle);
+  log(`${bekle.length} doku yüklendi`);
+  // Ölçek: Mixamo santimetre → metre
+  model.scale.setScalar(0.01);
+  const bilgi = { meshler: [], materyaller: [] };
+  const onbellek = new Map();   // aynı materyal / doku birden çok mesh'te tekrar yazılmasın
+  model.traverse(o => {
+    if (!o.isMesh) return;
+    // FBX geometrisi her üçgen için ayrı köşe yazar: aynı köşeleri birleştirip indeksli yap (dosya ~4 kat küçülür)
+    const once = o.geometry.attributes.position.count;
+    o.geometry.deleteAttribute('color');
+    o.geometry = mergeVertices(o.geometry, 1e-4);
+    bilgi.meshler.push(`köşe ${once} → ${o.geometry.attributes.position.count} · `);
+    bilgi.meshler.push(o.name + (o.isSkinnedMesh ? ' (skinned)' : '') + ' tri:' + (o.geometry.index ? o.geometry.index.count / 3 : o.geometry.attributes.position.count / 3));
+    const mats = Array.isArray(o.material) ? o.material : [o.material];
+    const yeni = mats.map(m => {
+      if (onbellek.has(m.name)) return onbellek.get(m.name);
+      const s = new THREE.MeshStandardMaterial({ name: m.name, color: m.color, roughness: 0.7, metalness: 0,
+        transparent: m.transparent, alphaTest: m.alphaTest, side: m.side });
+      s.map = kucult(m.map, m.transparent);
+      // Normal map (FBX'te ters/yanlış kanallı) cildi karartıyordu; dosyayı da büyütüyor: alınmaz
+      bilgi.materyaller.push(`${m.name} map:${m.map ? m.map.image.width + 'px' : '-'} normal:${m.normalMap ? 'var' : '-'} saydam:${m.transparent}`);
+      onbellek.set(m.name, s);
+      return s;
+    });
+    o.material = Array.isArray(o.material) ? yeni : yeni[0];
+  });
+  log('Meshler:\n  ' + bilgi.meshler.join('\n  '));
+  log('Materyaller:\n  ' + bilgi.materyaller.join('\n  '));
+
+  log('GLB üretiliyor…');
+  const glb = await new GLTFExporter().parseAsync(model, { binary: true, animations: klipler, onlyVisible: false });
+  log(`GLB boyutu: ${(glb.byteLength / 1048576).toFixed(2)} MB`);
+  const r = await fetch('/kaydet?ad=sporcu.glb', { method: 'POST', body: glb });
+  log(r.ok ? '✓ public/models/sporcu.glb kaydedildi' : 'Kaydedilemedi: ' + r.status);
+  window.__bitti = true;
+}
+document.getElementById('donustur').onclick = () => donustur().catch(e => { log('HATA: ' + e.message); console.error(e); });
+window.donustur = donustur;
+</script>
+</body>
+</html>
