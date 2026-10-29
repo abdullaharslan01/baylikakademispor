@@ -340,9 +340,9 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .g-pill .stars{display:block;color:#fbbc05;letter-spacing:2px;font-size:15px;line-height:1}
 .g-pill small{display:block;font-size:13px;color:#555;margin-top:3px}
 .marquee{margin-top:26px;overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
-.track{display:flex;gap:16px;width:max-content;animation:marquee var(--dur,60s) linear infinite;padding:4px 0}
-.marquee:hover .track,.marquee:focus-within .track{animation-play-state:paused}
-@keyframes marquee{to{transform:translateX(calc(-50% - 8px))}}
+.track{display:flex;gap:16px;width:max-content;padding:4px 0;will-change:transform}
+.marquee{touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.marquee.surukle{cursor:grabbing}
 .rv{flex:0 0 auto;width:min(78vw,340px);background:#fff;color:#1d1f23;border-radius:22px;padding:20px 20px 16px;display:flex;flex-direction:column;gap:12px}
 .rv .stars{color:#fbbc05;letter-spacing:2px}
 .rv p{font-size:15px;line-height:1.55;color:#33363c;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical;overflow:hidden}
@@ -352,7 +352,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .rv small{display:block;font-size:12.5px;color:#777}
 .rv .g{width:20px;height:20px;margin-left:auto}
 .rv-note{padding:14px clamp(22px,5vw,44px) 0;font-size:12.5px;opacity:.55}
-@media (prefers-reduced-motion: reduce){.marquee{overflow-x:auto}.track{animation:none}}
+@media (prefers-reduced-motion: reduce){.marquee{overflow-x:auto}}
 
 /* Blog: anasayfada geniş ızgara (ilk yazı büyük) */
 .posts{display:grid;grid-template-columns:1fr;gap:16px;padding:26px clamp(22px,5vw,44px) 6px}
@@ -387,8 +387,8 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .btn-ig svg{width:32px;height:32px;padding:6px;border-radius:50%;color:#fff;background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
 .ig-strip{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;padding:26px max(var(--pad), calc((100vw - 1360px)/2)) 8px;scrollbar-width:none}
 .ig-strip::-webkit-scrollbar{display:none}
-.ig-item{flex:0 0 auto;width:min(84vw,340px);scroll-snap-align:center;border-radius:18px;overflow:hidden;background:#fff}
-.ig-item iframe{display:block;width:100%;height:520px;border:0}
+.ig-item{flex:0 0 auto;width:min(86vw,360px);scroll-snap-align:center;border-radius:18px;overflow:hidden;background:#fff}
+.ig-item iframe{display:block;width:100%;height:calc(min(86vw,360px) + 250px);border:0}
 .ig-nav{display:flex;gap:10px;justify-content:center;margin-top:14px}
 .ig-nav button{width:48px;height:48px;border-radius:50%;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:#fff;font-size:20px;cursor:pointer}
 /* Haritalar */
@@ -409,7 +409,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .days::-webkit-scrollbar{display:none}
 .days label{flex:0 0 auto}
 .days span{min-width:56px;padding:6px 8px}
-@media (max-width:520px){.quick .btn-xl{font-size:16.5px;padding:14px 16px}.fab{width:50px;height:50px}.fab svg{width:24px;height:24px}.fabs{gap:10px;right:12px}}
+@media (max-width:520px){.quick .btn-xl{font-size:16.5px;padding:14px 16px}}
 .quick .inputs{margin-top:12px}
 .quick .preview{white-space:pre-line;font-size:13.5px;margin-top:12px}
 @media (min-width:900px){
@@ -427,6 +427,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .fab-wa{background:var(--wa);color:#fff}
 .fab-ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}
 .fab-cal{background:#0b6fa4}
+@media (max-width:520px){.fab{width:42px;height:42px}.fab svg{width:20px;height:20px}.fabs{gap:8px;right:10px;bottom:calc(12px + env(safe-area-inset-bottom))}}
 
 @media (min-width:760px){
   .branch-cards{grid-template-columns:repeat(3,1fr)}
@@ -1076,8 +1077,44 @@ const DEMO_REVIEWS = [
     </article>`;
   // Bant kesintisiz dönsün diye liste iki kez basılır; ikinci kopya ekran okuyuculardan gizli.
   track.innerHTML = list.map((r, i) => card(r, i, false)).join('') + list.map((r, i) => card(r, i, true)).join('');
-  track.style.setProperty('--dur', `${list.length * 7}s`);
+  bant(document.getElementById('marquee'), track);
 })(DEMO_REVIEWS);
+
+/** Sonsuz kayan bant: kendiliğinden akar; parmakla/fareyle sürüklenebilir, bırakınca devam eder.
+    Masaüstünde fare üstündeyken durur. "Hareketi azalt" açıksa yalnız elle kaydırılır. */
+function bant(kap, ray) {
+  const azalt = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (azalt) return;
+  let x = 0, hiz = 38, son = performance.now(), surukle = null, uzerinde = false, gorunur = true;
+  const yarim = () => ray.scrollWidth / 2 + 8;
+  const sar = () => { const w = yarim(); if (x <= -w) x += w; if (x > 0) x -= w; };
+  const adim = (t) => {
+    const dt = Math.min(0.05, (t - son) / 1000); son = t;
+    if (!surukle && !uzerinde && gorunur) x -= hiz * dt;
+    sar(); ray.style.transform = `translate3d(${x}px,0,0)`;
+    requestAnimationFrame(adim);
+  };
+  requestAnimationFrame(adim);
+  new IntersectionObserver(([g]) => { gorunur = g.isIntersecting; }).observe(kap);
+  kap.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') uzerinde = true; });
+  kap.addEventListener('pointerleave', e => { if (e.pointerType === 'mouse') uzerinde = false; });
+  kap.addEventListener('pointerdown', e => {
+    surukle = { id: e.pointerId, bas: e.clientX, x0: x, yatay: null, by: e.clientY };
+  });
+  kap.addEventListener('pointermove', e => {
+    if (!surukle || e.pointerId !== surukle.id) return;
+    const dx = e.clientX - surukle.bas, dy = e.clientY - surukle.by;
+    if (surukle.yatay === null && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      surukle.yatay = Math.abs(dx) > Math.abs(dy);
+      if (surukle.yatay) { kap.setPointerCapture(e.pointerId); kap.classList.add('surukle'); }
+      else { surukle = null; return; }
+    }
+    if (surukle.yatay) x = surukle.x0 + dx;
+  });
+  const birak = () => { surukle = null; kap.classList.remove('surukle'); };
+  kap.addEventListener('pointerup', birak);
+  kap.addEventListener('pointercancel', birak);
+}
 
 // Blog: ÖRNEK yazılar demo/yazilar.js'den (blog sayfasıyla ortak). TODO (panel): yayında sunucu son yazıları HTML'e basar.
 import('./demo/yazilar.js').then(({ YAZILAR, kapakUrl }) => {
