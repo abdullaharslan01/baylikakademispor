@@ -25,7 +25,7 @@ jobs:
           mkdir -p _site
           cp index.html _site/
           cp -r blog demo _site/
-          cp -r public/fonts public/img public/models _site/
+          cp -r public/fonts public/img public/models public/video _site/
           touch _site/.nojekyll
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3

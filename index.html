@@ -215,11 +215,6 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .coach small{display:block;font-size:14px;opacity:.82;line-height:1.45}
 .quote-mini{margin-top:16px;padding-left:14px;border-left:3px solid var(--sea-hi);font-style:italic;opacity:.92}
 .card-cta .btns{display:flex;flex-direction:column;gap:10px;margin-top:16px}
-.price{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:14px;padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(124,230,241,.2)}
-.price b{display:block;font-size:16px}
-.price small{display:block;font-size:13.5px;opacity:.8;margin-top:2px;max-width:240px}
-.price-link{display:inline-flex;align-items:center;gap:8px;min-height:40px;padding:8px 14px;border-radius:999px;background:var(--wa);color:var(--wa-ink);font-weight:800;font-size:14px;text-decoration:none;white-space:nowrap}
-.price-link svg{width:18px;height:18px}
 .bubbles i{position:absolute;bottom:-20px;width:10px;height:10px;border-radius:50%;border:1.5px solid rgba(255,255,255,.55);animation:up 9s linear infinite}
 @keyframes up{to{transform:translateY(-120vh)}}
 
@@ -311,13 +306,20 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .chips span{display:inline-flex;min-height:44px;align-items:center;padding:10px 16px;border-radius:999px;border:1.5px solid rgba(255,255,255,.3);font-weight:700;font-size:15px;transition:all .2s}
 .chips input:checked + span{background:#fff;color:var(--ink);border-color:#fff}
 .chips input:focus-visible + span{outline:3px solid #ffd54a;outline-offset:2px}
-.quick .inputs{display:grid;grid-template-columns:1fr 110px;gap:10px;margin-top:16px}
+.quick .inputs{display:grid;grid-template-columns:minmax(0,1fr) 96px;gap:10px;margin-top:16px}
 .quick input[type=text],.quick input[type=number]{width:100%;min-height:48px;border-radius:14px;border:1.5px solid rgba(255,255,255,.25);background:rgba(0,0,0,.35);color:#fff;padding:10px 14px;font:inherit;font-size:16px}
 .quick input::placeholder{color:rgba(255,255,255,.55)}
 .quick .preview{margin-top:14px;font-size:14px;line-height:1.5;padding:12px 14px;border-radius:14px;background:rgba(0,0,0,.3);opacity:.9}
 .quick .btn{width:100%;margin-top:14px}
 .footer{max-width:var(--maxw);margin:40px auto 0;display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center;font-size:13px;opacity:.7}
 .footer a{text-decoration:underline}
+.kaynak-ac{background:none;border:0;color:inherit;font:inherit;font-size:12px;opacity:.6;text-decoration:underline;cursor:pointer}
+.kaynak{margin:auto;max-width:min(92vw,520px);border:0;border-radius:20px;padding:24px;background:#16171b;color:#fff}
+.kaynak::backdrop{background:rgba(0,0,0,.6)}
+.kaynak h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:28px;margin-bottom:12px}
+.kaynak ul{list-style:disc;padding-left:20px;font-size:14px;line-height:1.6;opacity:.9}
+.kaynak li+li{margin-top:6px}
+.kaynak button{margin-top:16px;min-height:42px;padding:8px 18px;border-radius:999px;border:0;background:#fff;color:#111;font:inherit;font-weight:800;cursor:pointer}
 
 /* Belgeler, örnek etiketleri */
 .cred{display:inline-flex;align-items:center;gap:6px;padding:5px 11px;border-radius:999px;font-size:13px;font-weight:700;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16)}
@@ -396,18 +398,22 @@ html.js [data-reveal].in{opacity:1;transform:none}
 .fcard.loc .row{margin-bottom:18px}
 .map{display:block;width:100%;height:230px;border:0;filter:grayscale(.15) contrast(1.05)}
 /* Randevu formu: derli toplu */
-.quick{display:grid;gap:4px 28px;padding:clamp(18px,3vw,30px)}
+.quick{display:grid;grid-template-columns:minmax(0,1fr);gap:4px 28px;padding:clamp(18px,3vw,30px)}
+.quick > *,.quick fieldset,.quick label,.quick input{min-width:0}
+.quick .btn{white-space:normal;text-align:center}
 .quick > p:first-child{margin-bottom:4px}
 .quick fieldset{margin-top:12px}
 .quick legend{margin-bottom:6px;font-size:12px}
 .chips span{min-height:40px;padding:8px 14px;font-size:14.5px}
 .days{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;scrollbar-width:none;-webkit-mask:linear-gradient(90deg,#000 88%,transparent);mask:linear-gradient(90deg,#000 88%,transparent)}
 .days::-webkit-scrollbar{display:none}
+.days label{flex:0 0 auto}
 .days span{min-width:56px;padding:6px 8px}
+@media (max-width:520px){.quick .btn-xl{font-size:16.5px;padding:14px 16px}.fab{width:50px;height:50px}.fab svg{width:24px;height:24px}.fabs{gap:10px;right:12px}}
 .quick .inputs{margin-top:12px}
 .quick .preview{white-space:pre-line;font-size:13.5px;margin-top:12px}
 @media (min-width:900px){
-  .quick{grid-template-columns:1fr 1fr;align-items:start}
+  .quick{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:start}
   .quick > p:first-child{grid-column:1/-1}
   .quick button[type=submit]{align-self:end}
 }
@@ -600,10 +606,9 @@ html.js [data-reveal].in{opacity:1;transform:none}
         <article class="card card-cta" data-reveal>
           <h3>Önce tanışalım</h3>
           <p>Kayıttan önce ön görüşme yapabilirsiniz. Havuzu görür, eğitmeninizle tanışır, sorularınızı yerinde sorarsınız.</p>
-          <!-- TODO: Fiyatlar bilinçli olarak yazılmadı; fiyat sorusu WhatsApp'a yönlendiriliyor. -->
-          <div class="price"><div><b>Ücret ve kampanyalar</b><small>Paket ücreti ve dönemsel kampanyaları hemen iletelim.</small></div><a class="price-link" href="https://wa.me/905428980601?text=Merhaba%2C%20y%C3%BCzme%20dersi%20%C3%BCcretleri%20ve%20g%C3%BCncel%20kampanyalar%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Ücret bilgisi al</a></div>
+          <!-- Ücret bilgisi sitede yer almaz; ücret soranlar ön görüşme randevusuna yönlendirilir. -->
           <div class="btns">
-            <a class="btn btn-wa" href="#randevu" data-branch="yüzme dersleri">
+            <a class="btn btn-wa" href="#randevu" data-branch="Yüzme">
               <svg aria-hidden="true"><use href="#i-wa"/></svg>Ön görüşme randevusu al
             </a>
             <a class="btn btn-ghost" href="https://wa.me/905428980601?text=Merhaba%2C%20y%C3%BCzme%20dersleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan yüzme dersleri hakkında bilgi alın (yeni sekmede açılır)">Yüzme hakkında sor</a>
@@ -681,11 +686,8 @@ html.js [data-reveal].in{opacity:1;transform:none}
             <dt>Yaş grupları</dt><dd>5–8 yaş · 9–14 yaş</dd>
             <dt>Ders günleri</dt><dd>Salı · Perşembe 17:30<br>Cumartesi 11:00</dd>
             <dt>Grup</dt><dd>Yaşa ve kuşağa göre</dd>
-            <dt>Ücret</dt><dd><a class="price-link" href="https://wa.me/905428980601?text=Merhaba%2C%20taekwondo%20kursu%20%C3%BCcretleri%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Güncel ücreti öğren</a></dd>
           </dl>
-          <a class="btn btn-red" style="margin-top:18px;width:100%" href="https://wa.me/905428980601?text=Merhaba%2C%20%C3%A7ocu%C4%9Fum%20i%C3%A7in%20taekwondo%20kursu%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan taekwondo kursu hakkında bilgi alın (yeni sekmede açılır)">
-            <svg aria-hidden="true"><use href="#i-wa"/></svg>Taekwondo için yaz
-          </a>
+          <a class="btn btn-red" style="margin-top:18px;width:100%" href="#randevu" data-branch="Taekwondo"><svg aria-hidden="true"><use href="#i-cal"/></svg>Ön görüşme randevusu al</a>
         </article>
       </div>
     </div>
@@ -711,11 +713,8 @@ html.js [data-reveal].in{opacity:1;transform:none}
           <dt>Yaş grubu</dt><dd>7–17 yaş çocuk · Yetişkin</dd>
           <dt>Lokasyon</dt><dd>Sincan salonu · Etimesgut Emirler</dd>
           <dt>Gün / saat</dt><dd>Pzt · Çrş · Cuma 19:00</dd>
-          <dt>Ücret</dt><dd><a class="price-link" href="https://wa.me/905428980601?text=Merhaba%2C%20kickboks%20dersleri%20%C3%BCcretleri%20hakk%C4%B1nda%20bilgi%20alabilir%20miyim%3F" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>Güncel ücreti öğren</a></dd>
         </dl>
-        <a class="btn btn-wa" style="margin-top:18px;width:100%" href="https://wa.me/905428980601?text=Merhaba%2C%20kickboks%20dersleri%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener" aria-label="WhatsApp'tan kickboks dersleri hakkında bilgi alın (yeni sekmede açılır)">
-          <svg aria-hidden="true"><use href="#i-wa"/></svg>Kickboks için yaz
-        </a>
+        <a class="btn btn-wa" style="margin-top:18px;width:100%" href="#randevu" data-branch="Kickboks"><svg aria-hidden="true"><use href="#i-cal"/></svg>Ön görüşme randevusu al</a>
       </article>
     </div>
   </section>
@@ -900,10 +899,19 @@ html.js [data-reveal].in{opacity:1;transform:none}
     <footer class="footer">
       <svg width="64" height="64" aria-hidden="true"><use href="#i-logo"/></svg>
       <p>© 2026 Baylık Akademi Spor Kulübü · Sincan &amp; Eryaman, Ankara</p>
-      <p>Görünüm: <a href="?3d">3D</a> · <a href="?lite">Sade</a></p>
-      <p>Demo sürüm · Bazı bilgiler örnek olarak yazılmıştır.</p>
-      <p class="credit">3D yüzücü: <a href="https://sketchfab.com/3d-models/james-realistic-male-character-3d-model-394c101990a54fa0adfc71d3d967fa2e" target="_blank" rel="noopener">“James realistic male character”</a> · StormierTunic16 · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a> · Animasyonlar: Mixamo · Fotoğraflar: Unsplash</p>
+      <button type="button" class="kaynak-ac" onclick="document.getElementById('kaynaklar').showModal()">Kaynaklar</button>
     </footer>
+    <!-- 3D model lisansı (CC BY 4.0) yazara atıf ister: atıf bu pencerede -->
+    <dialog class="kaynak" id="kaynaklar">
+      <h2>Kaynaklar</h2>
+      <ul>
+        <li>3D yüzücü: <a href="https://sketchfab.com/3d-models/james-realistic-male-character-3d-model-394c101990a54fa0adfc71d3d967fa2e" target="_blank" rel="noopener">“James realistic male character”</a> · StormierTunic16 · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">CC BY 4.0</a></li>
+        <li>3D dövüşçü ve animasyonlar: Mixamo (Adobe)</li>
+        <li>Blog fotoğrafları: Unsplash</li>
+        <li>Yazı tipleri: Big Shoulders Display, Plus Jakarta Sans, Source Serif 4 (SIL OFL)</li>
+      </ul>
+      <button type="button" onclick="this.closest('dialog').close()">Kapat</button>
+    </dialog>
   </section>
 </main>
 
@@ -1336,6 +1344,7 @@ function start(THREE) {
   const copingMat = new THREE.MeshBasicMaterial({ color: '#e9eef0' });
   [[PX1 - PX0 + 0.6, 0.3, (PX0 + PX1) / 2, PZ1 + 0.15], [PX1 - PX0 + 0.6, 0.3, (PX0 + PX1) / 2, PZ0 - 0.15], [0.3, PZ1 - PZ0, PX0 - 0.15, (PZ0 + PZ1) / 2], [0.3, PZ1 - PZ0, PX1 + 0.15, (PZ0 + PZ1) / 2]].forEach(([w, d, x, z]) => {
     const m = new THREE.Mesh(new THREE.BoxGeometry(w, 0.06, d), copingMat);
+    m.userData.kenarTasi = true;
     m.position.set(x, DECK + 0.03, z);
     deck.add(m);
   });
@@ -2169,6 +2178,7 @@ function start(THREE) {
     walls.visible = s < 3.7;
     ropes.visible = blocks.visible = s < 3.62;
     flags.visible = s < 3.4;
+    deck.children.forEach(c => { if (c.userData.kenarTasi) c.visible = s < 3.6; });
     direkler.visible = s < 3.5;
 
     // --- sualtı efektleri ---

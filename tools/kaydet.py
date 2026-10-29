@@ -18,11 +18,13 @@ class Isleyici(http.server.SimpleHTTPRequestHandler):
     def do_POST(self):
         u = urllib.parse.urlparse(self.path)
         ad = urllib.parse.parse_qs(u.query).get('ad', [''])[0]
-        if u.path != '/kaydet' or not re.fullmatch(r'[a-z0-9_-]+\.(glb|json)', ad):
+        if u.path != '/kaydet' or not re.fullmatch(r'[a-z0-9_-]+\.(glb|json|mp4|webm|jpg)', ad):
             self.send_error(400)
             return
         uzunluk = int(self.headers.get('Content-Length', 0))
-        with open(os.path.join(HEDEF, ad), 'wb') as f:
+        hedef = os.path.join(KOK, 'public', 'video') if ad.endswith(('.mp4', '.webm', '.jpg')) else HEDEF
+        os.makedirs(hedef, exist_ok=True)
+        with open(os.path.join(hedef, ad), 'wb') as f:
             f.write(self.rfile.read(uzunluk))
         self.send_response(204)
         self.end_headers()

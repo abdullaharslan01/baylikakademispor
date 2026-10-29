@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<title>Animasyon döngüsü kaydedici</title>
+<style>body{margin:0;background:#111;color:#ddd;font:14px monospace}canvas{display:block;margin:12px auto;border:1px solid #333}pre{padding:0 12px}</style>
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+</head>
+<body>
+<!-- Blogun altındaki üç kart için 3D animasyonları tam bir döngü uzunluğunda video olarak kaydeder.
+     Çalıştırma: python3 tools/kaydet.py → http://localhost:8777/tools/klip.html → konsolda kaydet('yuzme') vb. -->
+<canvas id="c" width="800" height="600"></canvas>
+<pre id="log"></pre>
+<script type="module">
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
+const log = (...a) => { document.getElementById('log').textContent += a.join(' ') + '\n'; };
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+const loader = new GLTFLoader();
+const yukle = url => new Promise((ok, hata) => loader.load(url, ok, undefined, hata));
+const CAUS = `float caus(vec2 p, float t){
+  float a = sin(p.x*2.1 + t*1.3 + sin(p.y*1.7 - t*0.7)*1.6);
+  float b = sin(p.y*2.4 - t*1.1 + sin(p.x*1.3 + t*0.9)*1.6);
+  float c = sin((p.x - p.y)*1.5 + t*0.8 + sin(p.y*0.9 + t)*0.8);
+  return pow(1.0 - abs((a + b + c)/3.0), 7.0); }`;
+
+/** Modeli 1,78 m boya getirir, ayaklarını y=0'a oturtan yardımcıyla birlikte döndürür */
+function hazirla(gltf) {
+  const root = gltf.scene;
+  root.traverse(o => { if (o.isMesh) o.frustumCulled = false; });
+  root.updateMatrixWorld(true);
+  const kutu = new THREE.Box3().setFromObject(root);
+  root.scale.multiplyScalar(1.78 / (kutu.max.y - kutu.min.y));
+  const kemik = ad => root.getObjectByName(ad) || root.getObjectByName(ad.replace(':', ''));
+  const ayaklar = ['LeftFoot', 'RightFoot', 'LeftToeBase', 'RightToeBase'].map(n => kemik('mixamorig:' + n)).filter(Boolean);
+  const holder = new THREE.Group(); holder.add(root);
+  const p = new THREE.Vector3();
+  const zemineOtur = () => {
+    holder.position.y = 0; holder.updateMatrixWorld(true);
+    let enAlt = Infinity; for (const b of ayaklar) { b.getWorldPosition(p); enAlt = Math.min(enAlt, p.y); }
+    holder.position.y = 0.04 - enAlt;
+  };
+  const mixer = new THREE.AnimationMixer(root);
+  return { root, kemik, holder, mixer, zemineOtur };
+}
+const kumas = (m, renk) => { if (!m) return; const k = m.material.clone(); k.map = null; k.roughness = 0.8; k.color.set(renk); m.material = k; };
+const parca = (root, ad) => { let m = null; root.traverse(o => { if (o.isMesh && o.name.includes(ad)) m = o; }); return m; };
+
+/** Kafatasını kafa kemiğinin uzayında ölçüp kırmızı bone ve gözlük takar (sitedekiyle aynı yöntem) */
+function boneTak(model) {
+  const headB = model.kemik('mixamorig:Head'), topB = model.kemik('mixamorig:HeadTop_End');
+  let govde = null; model.root.traverse(o => { if (o.isSkinnedMesh && (!govde || o.geometry.attributes.position.count > govde.geometry.attributes.position.count)) govde = o; });
+  model.root.updateMatrixWorld(true);
+  const ters = headB.matrixWorld.clone().invert(), hi = govde.skeleton.bones.indexOf(headB);
+  const pos = govde.geometry.attributes.position, si = govde.geometry.attributes.skinIndex, sw = govde.geometry.attributes.skinWeight;
+  const v = new THREE.Vector3(), nk = [];
+  for (let i = 0; i < pos.count; i++) for (let k = 0; k < 4; k++) if (si.getComponent(i, k) === hi && sw.getComponent(i, k) > 0.6) { govde.getVertexPosition(i, v); govde.localToWorld(v); nk.push(v.clone().applyMatrix4(ters)); break; }
+  const yuk = topB.position.clone().normalize(), hq = new THREE.Quaternion(); headB.getWorldQuaternion(hq);
+  const on = new THREE.Vector3(0, 0, 1).applyQuaternion(hq.invert()); on.addScaledVector(yuk, -on.dot(yuk)).normalize();
+  const sag = new THREE.Vector3().crossVectors(yuk, on).normalize();
+  let ust = -Infinity; for (const p of nk) ust = Math.max(ust, p.dot(yuk));
+  let yan = 0, onR = -Infinity, arka = Infinity;
+  for (const p of nk.filter(p => p.dot(yuk) > ust * 0.55)) { yan = Math.max(yan, Math.abs(p.dot(sag))); onR = Math.max(onR, p.dot(on)); arka = Math.min(arka, p.dot(on)); }
+  const derin = (onR - arka) / 2;
+  const taban = new THREE.Group(); taban.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(sag, yuk, on));
+  taban.position.copy(yuk.clone().multiplyScalar(ust - yan).addScaledVector(on, (onR + arka) / 2)); headB.add(taban);
+  const kabuk = new THREE.Mesh(new THREE.SphereGeometry(1, 40, 24, 0, Math.PI * 2, 0, Math.PI * 0.6), new THREE.MeshPhysicalMaterial({ color: '#c8141b', roughness: 0.3, clearcoat: 0.7 }));
+  kabuk.rotation.x = -0.42; kabuk.scale.set(yan * 1.06, yan * 1.08, derin * 1.06); taban.add(kabuk);
+  const gz = new THREE.Group(); gz.position.y = -yan * 0.42; taban.add(gz);
+  const lastik = new THREE.Mesh(new THREE.TorusGeometry(1, 0.035, 6, 48).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#f1f1f1' })); lastik.scale.set(yan * 1.02, yan, derin); gz.add(lastik);
+  [-1, 1].forEach(s => { const g = new THREE.Mesh(new THREE.SphereGeometry(yan * 0.24, 18, 12), new THREE.MeshStandardMaterial({ color: '#121418', roughness: 0.25, metalness: 0.3 })); g.position.set(s * yan * 0.36, 0, derin * 0.92); g.scale.set(1.25, 0.8, 0.5); gz.add(g); });
+}
+
+async function sahne(tur) {
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(36, 4 / 3, 0.05, 60);
+  let model, klip, guncelle = () => {};
+  if (tur === 'yuzme') {
+    scene.background = new THREE.Color('#0a5a74'); scene.fog = new THREE.Fog('#0a5a74', 3, 12);
+    scene.add(new THREE.HemisphereLight('#bff6ff', '#0b5068', 1.6));
+    const d = new THREE.DirectionalLight('#ffffff', 1.6); d.position.set(2, 6, 3); scene.add(d);
+    const zemin = new THREE.Mesh(new THREE.PlaneGeometry(40, 40).rotateX(-Math.PI / 2), new THREE.ShaderMaterial({
+      uniforms: { t: { value: 0 } },
+      vertexShader: 'varying vec3 w; void main(){ vec4 p = modelMatrix*vec4(position,1.0); w = p.xyz; gl_Position = projectionMatrix*viewMatrix*p; }',
+      fragmentShader: `uniform float t; varying vec3 w; ${CAUS}
+        void main(){ vec2 g = abs(fract(w.xz*2.0)-0.5); vec3 c = mix(vec3(0.42,0.8,0.86), vec3(0.3,0.64,0.72), smoothstep(0.44,0.5,max(g.x,g.y))*0.7);
+          c = mix(c, vec3(0.05,0.16,0.34), (1.0-smoothstep(0.12,0.15,abs(w.z+0.6)))*0.9);
+          c += caus(w.xz*1.1, t)*0.5; float f = smoothstep(3.0, 12.0, length(cameraPosition - w));
+          gl_FragColor = vec4(mix(c, vec3(0.04,0.35,0.45), f), 1.0); }` }));
+    zemin.position.y = -1.3; scene.add(zemin);
+    guncelle = (t) => { zemin.material.uniforms.t.value = t; };
+    const g = await yukle('../public/models/yuzucu.glb');
+    model = hazirla(g); klip = g.animations.find(a => a.name === 'swim');
+    model.holder.rotation.y = Math.PI / 2;                 // sağa doğru yüzer
+    const kalca = new THREE.Vector3(); model.root.updateMatrixWorld(true); model.kemik('mixamorig:Hips').getWorldPosition(kalca);
+    model.root.position.y = -kalca.y;                       // kalça y=0'da
+    scene.add(model.holder);
+    boneTak(model);
+    camera.position.set(0.15, 0.05, 3.2); camera.lookAt(0.15, -0.1, 0);
+  } else {
+    const dojo = tur === 'taekwondo';
+    const bg = dojo ? '#f2efea' : '#0b0b0d';
+    scene.background = new THREE.Color(bg); scene.fog = new THREE.Fog(bg, 5, 14);
+    scene.add(new THREE.HemisphereLight(dojo ? '#ffffff' : '#ff8a90', dojo ? '#cfc8bd' : '#120607', dojo ? 1.7 : 0.35));
+    const d = new THREE.DirectionalLight('#ffffff', dojo ? 2.2 : 0.4); d.position.set(-3, 6, 4); scene.add(d);
+    const zemin = new THREE.Mesh(new THREE.PlaneGeometry(40, 40).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: dojo ? '#f6f4f0' : '#141416', roughness: 0.9 }));
+    scene.add(zemin);
+    const halka = new THREE.Mesh(new THREE.RingGeometry(1.5, 1.6, 64).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: '#d71920' }));
+    halka.position.y = 0.002; scene.add(halka);
+    const g = await yukle('../public/models/dovuscu.glb');
+    model = hazirla(g); klip = g.animations.find(a => a.name === (dojo ? 'kick' : 'bag'));
+    model.holder.rotation.y = Math.PI / 2;
+    scene.add(model.holder);
+    kumas(parca(model.root, 'Shirt'), dojo ? '#f2f1ec' : '#17181c');
+    kumas(parca(model.root, 'Shorts'), dojo ? '#f2f1ec' : '#c9151b');
+    kumas(parca(model.root, 'Sneakers'), '#b97c5a');
+    const takili = (ad, obj, y) => { const b = model.kemik(ad); const ws = new THREE.Vector3(); b.getWorldScale(ws); const gr = new THREE.Group(); gr.scale.setScalar(1 / ws.x); gr.add(obj); obj.position.y = y; b.add(gr); };
+    if (dojo) {
+      const kusak = new THREE.Mesh(new THREE.TorusGeometry(0.15, 0.022, 8, 32).rotateX(Math.PI / 2), new THREE.MeshStandardMaterial({ color: '#141414' }));
+      kusak.scale.set(1.05, 1, 0.82); takili('mixamorig:Hips', kusak, 0.06);
+      camera.position.set(0.3, 1.25, 4.6); camera.lookAt(0.3, 0.95, 0);
+    } else {
+      ['mixamorig:LeftHand', 'mixamorig:RightHand'].forEach(b => { const e = new THREE.Mesh(new THREE.SphereGeometry(0.068, 20, 14), new THREE.MeshStandardMaterial({ color: '#d71920', roughness: 0.4 })); e.scale.set(0.95, 1.15, 1.05); takili(b, e, 0.07); });
+      const spot = new THREE.SpotLight('#ff2a36', 60, 14, 0.55, 0.6, 1.4); spot.position.set(0.2, 5, 1.6); spot.target.position.set(0.4, 1, 0); scene.add(spot, spot.target);
+      const spot2 = new THREE.SpotLight('#ff4a3a', 40, 14, 0.5, 0.6, 1.4); spot2.position.set(1.8, 5, -1); spot2.target.position.set(1, 1.2, 0); scene.add(spot2, spot2.target);
+      // Kum torbası: hafif sallanır
+      const torba = new THREE.Group(); torba.position.set(0.95, 2.62, 0);
+      const zincir = new THREE.Mesh(new THREE.CylinderGeometry(0.012, 0.012, 0.85, 5), new THREE.MeshStandardMaterial({ color: '#888', metalness: 0.8, roughness: 0.3 })); zincir.position.y = -0.42;
+      const govde = new THREE.Mesh(new THREE.CylinderGeometry(0.27, 0.25, 1.25, 20), new THREE.MeshStandardMaterial({ color: '#8c1118', roughness: 0.55 })); govde.position.y = -1.47;
+      torba.add(zincir, govde); scene.add(torba);
+      guncelle = (t) => { torba.rotation.z = -Math.sin(t / klip.duration * Math.PI * 2 * 2) * 0.05; };
+      camera.position.set(0.45, 1.3, 4.4); camera.lookAt(0.45, 1.0, 0);
+    }
+  }
+  const act = model.mixer.clipAction(klip); act.play();
+  return { scene, camera, model, klip, act, guncelle, tur };
+}
+
+async function kaydet(tur) {
+  const S = await sahne(tur);
+  const sure = S.klip.duration;
+  const tip = ['video/mp4;codecs=avc1.42E01F', 'video/mp4', 'video/webm;codecs=vp9'].find(t => MediaRecorder.isTypeSupported(t));
+  log(`${tur}: ${sure.toFixed(2)} sn, biçim ${tip}`);
+  const kare = (t) => {
+    S.act.time = t % sure; S.model.mixer.update(0);
+    if (S.tur !== 'yuzme') S.model.zemineOtur();
+    S.guncelle(t);
+    renderer.render(S.scene, S.camera);
+  };
+  kare(0);
+  // Önizleme görseli (video yüklenene kadar ve "hareketi azalt" açıksa)
+  const poster = await new Promise(r => canvas.toBlob(r, 'image/jpeg', 0.82));
+  await fetch(`/kaydet?ad=${tur}.jpg`, { method: 'POST', body: poster });
+  const akis = canvas.captureStream(30);
+  const kayit = new MediaRecorder(akis, { mimeType: tip, videoBitsPerSecond: 1_400_000 });
+  const parcalar = [];
+  kayit.ondataavailable = e => e.data.size && parcalar.push(e.data);
+  const bitti = new Promise(r => { kayit.onstop = r; });
+  kayit.start();
+  const bas = performance.now();
+  await new Promise(r => {
+    const adim = () => { const t = (performance.now() - bas) / 1000; kare(Math.min(t, sure)); if (t < sure) requestAnimationFrame(adim); else r(); };
+    requestAnimationFrame(adim);
+  });
+  kayit.stop(); await bitti;
+  const blob = new Blob(parcalar, { type: tip });
+  const uzanti = tip.startsWith('video/mp4') ? 'mp4' : 'webm';
+  const res = await fetch(`/kaydet?ad=${tur}.${uzanti}`, { method: 'POST', body: blob });
+  log(`  → public/video/${tur}.${uzanti} ${(blob.size / 1024).toFixed(0)} KB ${res.ok ? '✓' : 'HATA ' + res.status}`);
+}
+window.kaydet = kaydet;
+window.hepsi = async () => { for (const t of ['yuzme', 'taekwondo', 'kickboks']) await kaydet(t); log('bitti'); window.__bitti = true; };
+</script>
+</body>
+</html>

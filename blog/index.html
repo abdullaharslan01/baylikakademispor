@@ -32,7 +32,9 @@ img,svg,canvas{display:block}
 .btn svg{width:20px;height:20px}
 .btn-wa{background:var(--wa);color:var(--wa-ink)}
 .btn-ghost{background:#fff;color:var(--ink);border:1.5px solid var(--line)}
+.brand b{white-space:nowrap}
 @media (max-width:560px){.top nav .hide-s{display:none}.brand small{display:none}}
+@media (max-width:400px){.brand b{font-size:18px}.top nav .btn{padding:8px 12px}}
 
 /* Kahraman: sualtı sahnesi (WebGL ışık huzmeleri + kostikler, CSS kabarcıklar) */
 .sea{position:relative;overflow:hidden;color:#fff;background:linear-gradient(180deg,#0f7f93 0%,#06405c 45%,#04263a 100%);isolation:isolate}
@@ -110,12 +112,14 @@ img,svg,canvas{display:block}
 .pool canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1}
 .pool .in{padding:64px var(--pad) 48px}
 .pool h2{font-family:var(--display);font-weight:900;text-transform:uppercase;font-size:clamp(34px,5vw,60px);line-height:1;text-shadow:0 4px 24px rgba(0,0,0,.3)}
-.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px;margin-top:26px}
-.br{display:flex;align-items:center;gap:14px;padding:18px;border-radius:20px;text-decoration:none;background:rgba(3,30,44,.62);border:1px solid rgba(255,255,255,.18);transition:transform .2s,background .2s}
-.br:hover{transform:translateY(-3px);background:rgba(3,30,44,.78)}
-.br svg{width:44px;height:44px;flex:none;padding:9px;border-radius:14px;background:rgba(255,255,255,.14)}
-.br b{display:block;font-family:var(--display);font-weight:900;font-size:26px;text-transform:uppercase;line-height:1}
+.branches{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:18px;margin-top:26px}
+.br{display:flex;flex-direction:column;border-radius:22px;overflow:hidden;text-decoration:none;background:rgba(3,30,44,.7);border:1px solid rgba(255,255,255,.18);transition:transform .25s,box-shadow .25s}
+.br:hover{transform:translateY(-4px);box-shadow:0 24px 50px -24px rgba(0,0,0,.6)}
+.br video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#0a3d55}
+.br-alt{display:flex;flex-direction:column;gap:2px;padding:16px 18px 18px}
+.br b{display:block;font-family:var(--display);font-weight:900;font-size:30px;text-transform:uppercase;line-height:1}
 .br small{opacity:.85;font-size:14px}
+.br em{font-style:normal;font-weight:800;font-size:14px;margin-top:8px;color:#9ef0ff}
 footer{background:#0a0a0c;color:rgba(255,255,255,.75);padding:28px 0 calc(28px + env(safe-area-inset-bottom));font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
 footer a{color:#fff}
@@ -152,9 +156,18 @@ footer a{color:#fff}
     <p class="kicker" style="color:#d9fbff">Baylık Akademi</p>
     <h2 id="branslar">Suda, minderde, ringde</h2>
     <div class="branches">
-      <a class="br" href="../#yuzme"><svg aria-hidden="true"><use href="#i-swim"/></svg><span><b>Yüzme</b><small>Eryaman · birebir ders</small></span></a>
-      <a class="br" href="../#taekwondo"><svg aria-hidden="true"><use href="#i-kick"/></svg><span><b>Taekwondo</b><small>Sincan · çocuk kursu</small></span></a>
-      <a class="br" href="../#kickboks"><svg aria-hidden="true"><use href="#i-glove"/></svg><span><b>Kickboks</b><small>Sincan · çocuk &amp; yetişkin</small></span></a>
+      <a class="br" href="../#yuzme">
+        <video src="../video/yuzme.mp4" poster="../video/yuzme.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+        <span class="br-alt"><b>Yüzme</b><small>Eryaman · birebir ders</small><em>Ön görüşme randevusu →</em></span>
+      </a>
+      <a class="br" href="../#taekwondo">
+        <video src="../video/taekwondo.mp4" poster="../video/taekwondo.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+        <span class="br-alt"><b>Taekwondo</b><small>Sincan · çocuk kursu</small><em>Ön görüşme randevusu →</em></span>
+      </a>
+      <a class="br" href="../#kickboks">
+        <video src="../video/kickboks.mp4" poster="../video/kickboks.jpg" muted loop playsinline preload="none" aria-hidden="true"></video>
+        <span class="br-alt"><b>Kickboks</b><small>Sincan · çocuk &amp; yetişkin</small><em>Ön görüşme randevusu →</em></span>
+      </a>
     </div>
   </div>
 </section>
@@ -321,6 +334,11 @@ function suAlti(canvas, mode) { if (canvas && !calisan.has(canvas)) calisan.set(
 
 ciz();
 suAlti(document.getElementById('havuz'), 1);
+const vgoz = new IntersectionObserver(gs => gs.forEach(g => {
+  const v = g.target;
+  if (g.isIntersecting && !azalt) { v.preload = 'auto'; v.play().catch(() => {}); } else v.pause();
+}), { rootMargin: '120px' });
+document.querySelectorAll('.br video').forEach(v => vgoz.observe(v));
 </script>
 </body>
 </html>
