@@ -68,10 +68,14 @@
   if (/[?&]lite\b/.test(q)) mode = 'lite';
   if (/[?&]3d\b/.test(q) && gl) mode = 'try3d';
   d.className = mode + (weak ? ' weak' : '');
+  if (mode === 'try3d') ['models/yuzucu.glb', 'models/dovuscu.glb'].forEach(function (h) {
+    var l = document.createElement('link'); l.rel = 'preload'; l.as = 'fetch'; l.href = h; l.crossOrigin = 'anonymous'; document.head.appendChild(l);
+  });
 })();
 </script>
 
 <style>
+html.try3d,html.gl{--cizgi:none}
 :root{
   --red:#d71920; --red-hi:#ff4a53; --ink:#0d0f13; --paper:#f2efea;
   --sea:#14b8cc; --sea-hi:#7ce6f1; --night:#0a2233;
@@ -183,7 +187,7 @@ html.js [data-reveal].in{opacity:1;transform:none}
   animation:shimmer 7s ease-in-out infinite alternate}
 .pool-art .rope{position:absolute;left:-5%;right:-5%;height:7px;border-radius:4px;
   background:repeating-linear-gradient(90deg,var(--red) 0 18px,#fff 18px 36px);box-shadow:0 3px 8px rgba(0,0,0,.25)}
-.pool-art .swimmer{position:absolute;left:50%;bottom:16%;width:min(78vw,420px);transform:translateX(-50%);animation:bob 2.4s ease-in-out infinite}
+.pool-art .swimmer{display:var(--cizgi,block);position:absolute;left:50%;bottom:16%;width:min(78vw,420px);transform:translateX(-50%);animation:bob 2.4s ease-in-out infinite}
 @keyframes shimmer{to{transform:translate3d(-60px,-30px,0)}}
 @keyframes bob{50%{transform:translate(-50%,6px)}}
 
@@ -1880,19 +1884,27 @@ function start(THREE) {
   // GERÇEKÇİ SPORCULAR (Mixamo iskeleti):
   //   yuzucu.glb  → havuz (James, CC-BY: StormierTunic16 / Sketchfab)
   //   dovuscu.glb → taekwondo ve kickboks (Bryce, Mixamo)
-  // Yüklenene kadar ve yüklenemezse çizilmiş figür görünür.
+  // 3D sahne, gerçek modeller yüklenene kadar görünmez (arkada CSS havuz görünür); böylece açılışta
+  // önce çizilmiş figür, sonra gerçek model gelmez. Modeller hiç yüklenemezse çizilmiş figür yedek olarak açılır.
   // ------------------------------------------------------------
   const modeller = {};
-  let athlete = null;
-  if (tier === 0 || forced) {
-    import('three/addons/loaders/GLTFLoader.js').then(({ GLTFLoader }) => {
-      const loader = new GLTFLoader();
-      let kalan = 2;
-      const bitti = () => { if (--kalan === 0 && modeller.yuzucu && modeller.dovuscu) athleteKur(); };
-      loader.load('models/yuzucu.glb', g => { modeller.yuzucu = g; bitti(); }, undefined, () => console.warn('Yüzücü modeli yüklenemedi'));
-      loader.load('models/dovuscu.glb', g => { modeller.dovuscu = g; bitti(); }, undefined, () => console.warn('Dövüşçü modeli yüklenemedi'));
-    }).catch(e => console.warn(e));
-  }
+  let athlete = null, sahneHazir = false;
+  const yedekFigur = () => {
+    if (sahneHazir) return;
+    hips.children.forEach(c => { c.visible = true; });
+    sahneHazir = true;
+  };
+  hips.children.forEach(c => { c.visible = false; });
+  import('three/addons/loaders/GLTFLoader.js').then(({ GLTFLoader }) => {
+    const loader = new GLTFLoader();
+    let kalan = 2;
+    const bitti = () => { if (--kalan === 0 && modeller.yuzucu && modeller.dovuscu && !sahneHazir) { athleteKur(); sahneHazir = true; } };
+    const hata = (ad) => () => { console.warn(ad + ' yüklenemedi'); yedekFigur(); };
+    loader.load('models/yuzucu.glb', g => { modeller.yuzucu = g; bitti(); }, undefined, hata('Yüzücü modeli'));
+    loader.load('models/dovuscu.glb', g => { modeller.dovuscu = g; bitti(); }, undefined, hata('Dövüşçü modeli'));
+  }).catch(e => { console.warn(e); yedekFigur(); });
+  // Çok yavaş bağlantıda sonsuza dek beklenmesin
+  setTimeout(yedekFigur, 25000);
 
   /** Mixamo modelini sporcu pivotuna (kalça) oturtur; kemik yardımcıları ve karıştırıcı döndürür */
   function hazirla(gltf) {
@@ -2263,10 +2275,10 @@ function start(THREE) {
     sCur += (target - sCur) * (1 - Math.exp(-dt * 6));
     update(sCur, dt);
     renderer.render(scene, camera);
-    if (!root.classList.contains('gl')) root.classList.add('gl');
+    if (sahneHazir && !root.classList.contains('gl')) root.classList.add('gl');
 
     // Akıcılık kontrolü: yavaşsa önce çözünürlüğü düşür, olmazsa sade sürüme geç
-    if (time > 1.2 && perfStage < 3 && dtRaw < 0.25) {
+    if (sahneHazir && time > 1.2 && perfStage < 3 && dtRaw < 0.25) {
       perfT += dtRaw; perfF++;
       if (perfF >= 90) {
         const avg = perfT / perfF;
