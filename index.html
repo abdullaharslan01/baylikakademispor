@@ -1733,7 +1733,7 @@ function start(THREE) {
   // Kalça ve bel
   const pelvis = new THREE.Mesh(lathe([[0.001, -0.11], [0.1, -0.11], [0.145, -0.05], [0.152, 0.02], [0.14, 0.08], [0.001, 0.08]], 20, 1.12, 0.8), mat.pelvis);
   hips.add(pelvis);
-  ball(0.085, mat.pelvis, 0.06, -0.05, -0.065, 1, 0.95, 0.85, hips); ball(0.085, mat.pelvis, -0.06, -0.05, -0.065, 1, 0.95, 0.85, hips);   // kalça kasları
+  ball(0.1, mat.pelvis, 0, -0.04, -0.045, 1.45, 0.88, 0.72, hips);   // kalça: tek parça, yumuşak arka hat
   const band = new THREE.Mesh(new THREE.CylinderGeometry(0.152, 0.152, 0.05, 24), mat.belt); band.position.y = 0.06; band.scale.z = 0.82; hips.add(band);
   // Gövde: bel inceliyor, göğüs ve sırt genişliyor
   const torsoP = new THREE.Group(); torsoP.position.y = 0.06; hips.add(torsoP);
